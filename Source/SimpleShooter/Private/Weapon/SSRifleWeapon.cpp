@@ -3,6 +3,8 @@
 
 #include "Weapon/SSRifleWeapon.h"
 
+#include "Engine/DamageEvents.h"
+
 void ASSRifleWeapon::StartFire()
 {
 	MakeShot();
@@ -20,27 +22,16 @@ void ASSRifleWeapon::MakeShot()
 
 	FVector TraceStart, TraceEnd;
 	if(!GetTraceData(TraceStart, TraceEnd)) return;
- 	
-	//const auto CrossProduct = FVector::CrossProduct(GetActorForwardVector(), VelocityNormal);
-	//const auto AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
-	//const auto CrossProduct = FVector::CrossProduct(SocketTransform.GetRotation().GetForwardVector(), TraceEnd);
-	/*const auto AngleBetween = FMath::Acos(FVector::DotProduct
-		(TraceStart.GetSafeNormal(), SocketTransform.GetLocation().ForwardVector.GetSafeNormal()));
-	const auto Degrees = FMath::RadiansToDegrees(AngleBetween);*/
-
+	
 	FHitResult HitResult;
 	MakeHit(HitResult, TraceStart, TraceEnd);
- 	
+	
 	if (HitResult.bBlockingHit)
 	{
 		DrawDebugLine(GetWorld(), GetMuzzleWorldLocation(), HitResult.ImpactPoint, FColor::Red, false,
 			   3.0f, 0, 3.f);
 
 		MakeDamage(HitResult);
-	 		 	
-		/*const auto CrossProduct = FVector::CrossProduct(ShootDirection, SocketTransform.GetRotation().GetForwardVector());
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f,
-		FColor::Yellow, FString::Printf(TEXT("%s = End "), *CrossProduct.ToString()));*/
 	}
 	else
 	{
@@ -62,3 +53,11 @@ bool ASSRifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 	return true;
 }
+
+void ASSRifleWeapon::MakeDamage(const FHitResult& HitResult)
+{
+	const auto DamagedActor = HitResult.GetActor();
+	if (!DamagedActor) return;
+	DamagedActor->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerController(), this);
+}
+

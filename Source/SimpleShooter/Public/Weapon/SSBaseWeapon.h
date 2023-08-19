@@ -25,11 +25,9 @@ protected:
 	USkeletalMeshComponent* WeaponMesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	FName MuzzleSocketName = "Muzzle socket";
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FName MuzzleSocketName = "MuzzleFlashSocket";
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	float TraceMaxDistance = 1500.0f;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	float DamageAmount = 10.0f;
 	
 	virtual void BeginPlay() override;
 
@@ -44,7 +42,6 @@ protected:
 	
 	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
 
-	void MakeDamage(const FHitResult& HitResult);
 
 private:
 	FTimerHandle ShotTimerHandle;

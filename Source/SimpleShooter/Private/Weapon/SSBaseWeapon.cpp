@@ -75,13 +75,6 @@ void ASSBaseWeapon::StopFire()
  	
  }
 
- void ASSBaseWeapon::MakeDamage(const FHitResult& HitResult)
- {
- 	const auto DamagedActor = HitResult.GetActor();
- 	if (!DamagedActor) return;
- 	DamagedActor->TakeDamage(DamageAmount, FDamageEvent(), GetPlayerController(), this);
- }
-
 
  void ASSBaseWeapon::BeginPlay()
 {

@@ -18,21 +18,44 @@ public:
 	
 	void StartFire();
 	void StopFire();
+	void NextWeapon();
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<ASSBaseWeapon> WeaponClass;
+	TArray<TSubclassOf<ASSBaseWeapon>>  WeaponClasses;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName WeaponAttachPointName = "WeaponSocket";
+	FName WeaponEquipSocketName = "WeaponSocket";
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	FName WeaponArmorySocketName = "ArmorySocket";
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* EquipAnimMontage;
 	
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 public:
 
 private:
 	UPROPERTY()
 	ASSBaseWeapon* CurrentWeapon = nullptr;
-	void SpawnWeapon();
+
+	UPROPERTY()
+	TArray<ASSBaseWeapon*> Weapons;
+
+	int32 CurrentWeaponIndex = 0;
+	bool EquipAnimInPrograss = false;
+	
+	void SpawnWeapons();
+	void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
+	void EquipWeapons(int32 WeaponIndex);
+
+	void PlayAnimMontage(UAnimMontage* Animation);
+	void InitAnimations();
+	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
+
+	bool CanFire() const;
+	bool CanEquip() const;
 };
