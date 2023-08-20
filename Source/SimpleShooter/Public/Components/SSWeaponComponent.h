@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "SSCoreTypes.h"
 #include "SSWeaponComponent.generated.h"
 
 class ASSBaseWeapon;
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SIMPLESHOOTER_API USSWeaponComponent : public UActorComponent
@@ -19,11 +21,12 @@ public:
 	void StartFire();
 	void StopFire();
 	void NextWeapon();
+	void Reload();
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TArray<TSubclassOf<ASSBaseWeapon>>  WeaponClasses;
+	TArray<FWeaponData>  WeaponData;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponEquipSocketName = "WeaponSocket";
@@ -44,9 +47,14 @@ private:
 
 	UPROPERTY()
 	TArray<ASSBaseWeapon*> Weapons;
+	
+	UPROPERTY()
+	UAnimMontage* CurrentReloadAnimMontage = nullptr;
+	
 
 	int32 CurrentWeaponIndex = 0;
 	bool EquipAnimInPrograss = false;
+	bool ReloadAnimInPrograss = false;
 	
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
@@ -55,7 +63,14 @@ private:
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
+	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
 
 	bool CanFire() const;
 	bool CanEquip() const;
+	bool CanReload() const;
+
+	void OnEmpryClip();
+	void ChangeClip();
+	
+	
 };

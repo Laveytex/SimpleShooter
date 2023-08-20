@@ -7,8 +7,8 @@
 
 void ASSRifleWeapon::StartFire()
 {
-	MakeShot();
 	GetWorldTimerManager().SetTimer(ShotTimerHandle, this, &ASSRifleWeapon::MakeShot, TimeBetweenShots, true);
+	MakeShot();
 }
 
 void ASSRifleWeapon::StopFire()
@@ -18,10 +18,19 @@ void ASSRifleWeapon::StopFire()
 
 void ASSRifleWeapon::MakeShot()
 {
-	if (!GetWorld()) return;
+	if (!GetWorld() || IsAmmoEmpty())
+	{
+		StopFire();
+		return;
+	}
 
 	FVector TraceStart, TraceEnd;
-	if(!GetTraceData(TraceStart, TraceEnd)) return;
+	if(!GetTraceData(TraceStart, TraceEnd))
+	{
+		StopFire();
+		return;
+	}
+	
 	
 	FHitResult HitResult;
 	MakeHit(HitResult, TraceStart, TraceEnd);
@@ -39,6 +48,7 @@ void ASSRifleWeapon::MakeShot()
 		3.0f, 0, 3.f);
 	}
 	
+	DecreaseAmmo();
 }
 
 bool ASSRifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)

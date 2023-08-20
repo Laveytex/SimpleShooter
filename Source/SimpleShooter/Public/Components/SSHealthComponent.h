@@ -3,11 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SSCoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "SSHealthComponent.generated.h"
 
-DECLARE_MULTICAST_DELEGATE(FOnDeath);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -26,6 +25,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	bool IsDead() const { return FMath::IsNearlyZero(Health); }
+
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	float GetHealthPercent() const { return Health / MaxHealth; }
 
 protected:
 

@@ -48,6 +48,7 @@ void ASSBaseCharacter::BeginPlay()
 
 	LandedDelegate.AddDynamic(this, &ASSBaseCharacter::OnGroundLanded);
 
+	
 }
 
 // Called every frame
@@ -74,6 +75,7 @@ void ASSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USSWeaponComponent::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USSWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USSWeaponComponent::NextWeapon);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &USSWeaponComponent::Reload);
 }
 
 bool ASSBaseCharacter::IsRunning() const

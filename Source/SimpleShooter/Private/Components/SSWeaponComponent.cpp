@@ -3,7 +3,9 @@
 
 #include "Components/SSWeaponComponent.h"
 
+#include "Animations/AnimUtils.h"
 #include "Animations/SSEquipFinishedAnimNotify.h"
+#include "Animations/SSReloadFinishedAnimNotify.h"
 #include "GameFramework/Character.h"
 #include "Weapon/SSBaseWeapon.h"
 
@@ -36,6 +38,11 @@ void USSWeaponComponent::NextWeapon()
 	EquipWeapons(CurrentWeaponIndex);
 }
 
+void USSWeaponComponent::Reload()
+{
+	ChangeClip();
+}
+
 
 void USSWeaponComponent::BeginPlay()
 {
@@ -65,11 +72,12 @@ void USSWeaponComponent::SpawnWeapons()
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || !GetWorld()) return;
 
-	for (auto WeaponClass : WeaponClasses)
+	for (auto OneWeaponData : WeaponData)
 	{
-		auto Weapon = GetWorld()->SpawnActor<ASSBaseWeapon>(WeaponClass);
+		auto Weapon = GetWorld()->SpawnActor<ASSBaseWeapon>(OneWeaponData.WeaponClass);
 		if (!Weapon) continue;
 
+		Weapon->OnClipeEmpty.AddUObject(this, &USSWeaponComponent::OnEmpryClip);
 		Weapon->SetOwner(Character);
 		Weapons.Add(Weapon);
 		AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);
@@ -88,6 +96,10 @@ void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMe
 
 void USSWeaponComponent::EquipWeapons(int32 WeaponIndex)
 {
+	if(WeaponIndex < 0 || WeaponIndex >= Weapons.Num())
+	{
+		return;
+	}
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character) return;
 
@@ -98,6 +110,11 @@ void USSWeaponComponent::EquipWeapons(int32 WeaponIndex)
 	}
 
 	CurrentWeapon = Weapons[WeaponIndex];
+	
+	//CurrentReloadAnimMontage = WeaponData[WeaponIndex].ReloadAnimMontage;
+	const auto CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data)
+		{ return Data.WeaponClass == CurrentWeapon->GetClass();});
+	CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
 	AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
 	EquipAnimInPrograss = true;
 	PlayAnimMontage(EquipAnimMontage);
@@ -113,17 +130,18 @@ void USSWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
 
 void USSWeaponComponent::InitAnimations()
 {
-	if (!EquipAnimMontage) return;
-	const auto NotifieEvents = EquipAnimMontage->Notifies;
-
-	for (auto NotifieEvent : NotifieEvents)
+	auto EquipFinishedNotify = AnimUtils::FindNotifyByClass<USSEquipFinishedAnimNotify>(EquipAnimMontage);
+	if (EquipFinishedNotify)
 	{
-		auto EquipFinishedNotify =  Cast<USSEquipFinishedAnimNotify>(NotifieEvent.Notify);
-		if (EquipFinishedNotify)
-		{
-			EquipFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnEquipFinished);
-			break;
-		}
+		EquipFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnEquipFinished);
+	}
+
+	for (auto OneWeaponData : WeaponData)
+	{
+		auto ReloadFinishedNotify = AnimUtils::FindNotifyByClass<USSReloadFinishedAnimNotify>(OneWeaponData.ReloadAnimMontage);
+		
+		if (!ReloadFinishedNotify) continue;
+		ReloadFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnReloadFinished);
 	}
 }
 
@@ -131,19 +149,46 @@ void USSWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || Character->GetMesh() != MeshComponent) return;
-	
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Equip finished"));
 	EquipAnimInPrograss = false;
+}
+
+void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
+{
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	if (!Character || Character->GetMesh() != MeshComponent) return;
+	ReloadAnimInPrograss = false;
+}
+
+bool USSWeaponComponent::CanReload() const
+{
+	return !EquipAnimInPrograss
+	&& CurrentWeapon
+	&& !ReloadAnimInPrograss
+	&& CurrentWeapon->CanReload();
+}
+
+void USSWeaponComponent::OnEmpryClip()
+{
+	ChangeClip();
+}
+
+void USSWeaponComponent::ChangeClip()
+{
+	if(!CanReload()) return;
+	CurrentWeapon->StopFire();
+	CurrentWeapon->ChangeClip();
+	ReloadAnimInPrograss = true;
+	PlayAnimMontage(CurrentReloadAnimMontage);
 }
 
 bool USSWeaponComponent::CanFire() const
 {
-	return !EquipAnimInPrograss && CurrentWeapon;
+	return !EquipAnimInPrograss && CurrentWeapon && !ReloadAnimInPrograss;
 }
 
 bool USSWeaponComponent::CanEquip() const
 {
-	return !EquipAnimInPrograss;
+	return !EquipAnimInPrograss && !ReloadAnimInPrograss;
 }
 
 

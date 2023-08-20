@@ -6,7 +6,6 @@
 #include "Engine/DamageEvents.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/Character.h"
-#include "Player/SSBaseCharacter.h"
 
 
  ASSBaseWeapon::ASSBaseWeapon()
@@ -75,10 +74,59 @@ void ASSBaseWeapon::StopFire()
  	
  }
 
+ void ASSBaseWeapon::DecreaseAmmo()
+ {
+ 	if(CurrentAmmo.Bullets == 0) return;
+ 	CurrentAmmo.Bullets--;
+ 	LogAmmo();
+
+    if (IsClipEmpty() && !IsAmmoEmpty())
+    {
+    	StopFire();
+    	OnClipeEmpty.Broadcast();
+    }
+ }
+
+ bool ASSBaseWeapon::IsAmmoEmpty() const
+ {
+ 	return !CurrentAmmo.Infinite && CurrentAmmo.Clips == 0 && IsClipEmpty();
+ }
+
+ bool ASSBaseWeapon::IsClipEmpty() const
+ {
+ 	return CurrentAmmo.Bullets == 0;
+ }
+
+ void ASSBaseWeapon::ChangeClip()
+ {
+ 	
+    if (!CurrentAmmo.Infinite)
+    {
+    	if(CurrentAmmo.Clips == 0) return;
+	    CurrentAmmo.Clips--;
+    	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
+    	FString::Printf(TEXT("-----ClipChanged-----")));
+    }
+ 	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
+ }
+
+ bool ASSBaseWeapon::CanReload() const
+ {
+ 	return CurrentAmmo.Bullets < DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
+ }
+
+ void ASSBaseWeapon::LogAmmo()
+ {
+
+ }
+
 
  void ASSBaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
+
+ 	CurrentAmmo = DefaultAmmo;
+ 	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("%s = FloatVariable"), DefaultAmmo.Bullets));
 }
 
  void ASSBaseWeapon::MakeShot()
