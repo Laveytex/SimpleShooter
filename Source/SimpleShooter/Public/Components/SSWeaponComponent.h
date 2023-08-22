@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "SSCoreTypes.h"
+#include "Weapon/SSBaseWeapon.h"
 #include "SSWeaponComponent.generated.h"
 
 class ASSBaseWeapon;
@@ -23,6 +24,12 @@ public:
 	void NextWeapon();
 	void Reload();
 
+	bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
+
+	bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
+ 	
+	
+
 protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -39,6 +46,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	
 public:
 
 private:

@@ -78,7 +78,6 @@ void ASSBaseWeapon::StopFire()
  {
  	if(CurrentAmmo.Bullets == 0) return;
  	CurrentAmmo.Bullets--;
- 	LogAmmo();
 
     if (IsClipEmpty() && !IsAmmoEmpty())
     {
