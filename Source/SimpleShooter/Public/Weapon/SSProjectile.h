@@ -4,11 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
+#include "Components/SSWeaponComponent.h"
+#include "Components/SSWeaponFXComponent.h"
 #include "GameFramework/Actor.h"
 #include "SSProjectile.generated.h"
 
 class CollisionComponent;
 class UProjectileMovementComponent;
+class USSWeaponComponent;
+
 
 UCLASS()
 class SIMPLESHOOTER_API ASSProjectile : public AActor
@@ -27,6 +31,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	UProjectileMovementComponent* MovementComponent;
 
+	UPROPERTY(VisibleAnywhere, Category = "VFX")
+	USSWeaponFXComponent* WeaponFXComponent;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamageRadius = 200.0f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")

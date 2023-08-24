@@ -5,6 +5,7 @@
 
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Weapon/Components/SSWeaponFXComponent.h"
 
 ASSProjectile::ASSProjectile()
 {
@@ -19,6 +20,8 @@ ASSProjectile::ASSProjectile()
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 	MovementComponent->InitialSpeed = 2000.0f;
 	MovementComponent->ProjectileGravityScale = 0.0f;
+
+	WeaponFXComponent = CreateDefaultSubobject<USSWeaponFXComponent>("WeaponFXComponent");
 }
 
 void ASSProjectile::BeginPlay()
@@ -44,7 +47,7 @@ void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
 
 	DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24,
 		FColor::Yellow, false, 5.0f);
-	
+	WeaponFXComponent->PlayImpactFX(Hit);
 	Destroy();
 }
 

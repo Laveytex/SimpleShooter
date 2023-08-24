@@ -13,7 +13,6 @@ USSHealthComponent::USSHealthComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 }
 
-
 // Called when the game starts
 void USSHealthComponent::BeginPlay()
 {
@@ -54,7 +53,7 @@ void USSHealthComponent::HealUpdate()
 {
 	SetHealt(Health + HealModifire);
 	
-	if (FMath::IsNearlyEqual(Health, MaxHealth))
+	if (IsHealthFull() && GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	}
@@ -66,5 +65,16 @@ void USSHealthComponent::SetHealt(float NewHealh)
 	OnHealthChanged.Broadcast(Health);
 }
 
+bool USSHealthComponent::IsHealthFull() const
+{
+	return  FMath::IsNearlyEqual(Health, MaxHealth);
+}
 
-
+bool USSHealthComponent::TryToAddHealth(int32 HealthAmount)
+{
+	if (IsDead() || IsHealthFull()) return false;
+	
+	SetHealt(Health + HealthAmount);
+	
+	return true; 
+}

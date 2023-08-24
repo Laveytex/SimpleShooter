@@ -4,6 +4,12 @@
 #include "Weapon/SSRifleWeapon.h"
 
 #include "Engine/DamageEvents.h"
+#include "Weapon/Components/SSWeaponFXComponent.h"
+
+ASSRifleWeapon::ASSRifleWeapon()
+{
+	WeaponFXComponent = CreateDefaultSubobject<USSWeaponFXComponent>("WeaponFXComponent");
+}
 
 void ASSRifleWeapon::StartFire()
 {
@@ -41,6 +47,7 @@ void ASSRifleWeapon::MakeShot()
 			   3.0f, 0, 3.f);
 
 		MakeDamage(HitResult);
+		WeaponFXComponent->PlayImpactFX(HitResult);
 	}
 	else
 	{

@@ -82,7 +82,7 @@ void ASSBaseWeapon::StopFire()
     if (IsClipEmpty() && !IsAmmoEmpty())
     {
     	StopFire();
-    	OnClipeEmpty.Broadcast();
+    	OnClipeEmpty.Broadcast(this);
     }
  }
 
@@ -94,6 +94,12 @@ void ASSBaseWeapon::StopFire()
  bool ASSBaseWeapon::IsClipEmpty() const
  {
  	return CurrentAmmo.Bullets == 0;
+ }
+
+ bool ASSBaseWeapon::IsAmmoFull() const
+ {
+ 	return CurrentAmmo.Clips == DefaultAmmo.Clips &&
+ 		CurrentAmmo.Bullets == DefaultAmmo.Bullets;
  }
 
  void ASSBaseWeapon::ChangeClip()
@@ -112,6 +118,35 @@ void ASSBaseWeapon::StopFire()
  bool ASSBaseWeapon::CanReload() const
  {
  	return CurrentAmmo.Bullets < DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
+ }
+
+ bool ASSBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
+ {
+ 	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <=0) return false;
+
+    if (IsAmmoEmpty())
+    {
+	   CurrentAmmo.Clips =  FMath::Clamp(ClipsAmount, 0, DefaultAmmo.Clips + 1);
+    	OnClipeEmpty.Broadcast(this);
+    }
+ 	else if (CurrentAmmo.Clips < DefaultAmmo.Clips)
+    {
+	    const auto NextClipsAmount = CurrentAmmo.Clips + ClipsAmount;
+ 		if(DefaultAmmo.Clips - NextClipsAmount >= 0)
+ 		{
+ 			CurrentAmmo.Clips = NextClipsAmount;
+ 		}
+        else
+        {
+        	CurrentAmmo.Clips = DefaultAmmo.Clips;
+        	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
+        }
+    }
+    else
+    {
+	    CurrentAmmo.Bullets = DefaultAmmo.Bullets;
+    }
+ 	return true;
  }
 
  void ASSBaseWeapon::LogAmmo()

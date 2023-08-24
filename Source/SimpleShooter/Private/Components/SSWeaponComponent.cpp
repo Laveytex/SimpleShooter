@@ -167,9 +167,24 @@ bool USSWeaponComponent::CanReload() const
 	&& CurrentWeapon->CanReload();
 }
 
-void USSWeaponComponent::OnEmpryClip()
+void USSWeaponComponent::OnEmpryClip(ASSBaseWeapon* EmptyWeapon)
 {
-	ChangeClip();
+	if(!EmptyWeapon) return;
+	
+	if (CurrentWeapon == EmptyWeapon)
+	{
+		ChangeClip();
+	}
+	else
+	{
+		for( const auto Weapon : Weapons)
+		{
+			if (Weapon == EmptyWeapon)
+			{
+				ChangeClip();
+			}
+		}
+	}
 }
 
 void USSWeaponComponent::ChangeClip()
@@ -207,6 +222,18 @@ bool USSWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
 	{
 		AmmoData = CurrentWeapon->GetAmmoData();
 		return true;
+	}
+	return false;
+}
+
+bool USSWeaponComponent::TryToAddAmmo(TSubclassOf<ASSBaseWeapon> WeaponType, int32 ClipAmount)
+{
+	for (const auto Weapon : Weapons)
+	{
+		if (Weapon && Weapon->IsA(WeaponType))
+		{
+			return Weapon->TryToAddAmmo(ClipAmount);
+		}
 	}
 	return false;
 }
