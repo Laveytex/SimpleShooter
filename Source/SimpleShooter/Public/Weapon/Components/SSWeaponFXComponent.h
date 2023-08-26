@@ -8,6 +8,7 @@
 #include "SSWeaponFXComponent.generated.h"
 
 class UNiagaraSystem;
+class UPhysicalMaterial;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SIMPLESHOOTER_API USSWeaponFXComponent : public UActorComponent
@@ -23,6 +24,9 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
-	UNiagaraSystem* Effect;
+	UNiagaraSystem* DefaultEffect;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	TMap<UPhysicalMaterial*, UNiagaraSystem*> EffectsMap;
 		
 };

@@ -68,10 +68,10 @@ void ASSBaseWeapon::StopFire()
  {
  	if(!GetWorld()) return;
  	FCollisionQueryParams CollisionParams;
+ 	CollisionParams.bReturnPhysicalMaterial = true;
  	CollisionParams.AddIgnoredActor(GetOwner());
- 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility);
-
  	
+ 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECollisionChannel::ECC_Visibility, CollisionParams);
  }
 
  void ASSBaseWeapon::DecreaseAmmo()
