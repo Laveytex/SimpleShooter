@@ -36,7 +36,7 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 
 	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	
-	OnHealthChanged.Broadcast(Health);
+	OnHealthChanged.Broadcast(Health, 0.0f);
 	
 	//Health -= Damage;
 	if (IsDead())
@@ -47,6 +47,8 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 	{
 		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this,  &USSHealthComponent::HealUpdate, HealUpdateTime, true, HealthDelay);
 	}
+
+	PlayCameraShake();
 }
 
 void USSHealthComponent::HealUpdate()
@@ -61,8 +63,22 @@ void USSHealthComponent::HealUpdate()
 
 void USSHealthComponent::SetHealt(float NewHealh)
 {
-	Health = FMath::Clamp(NewHealh, 0.0f, MaxHealth);
-	OnHealthChanged.Broadcast(Health);
+	const auto  NextHealth = FMath::Clamp(NewHealh, 0.0f, MaxHealth);
+	const auto HealthDelta = NextHealth - Health;
+	Health = NextHealth;
+	OnHealthChanged.Broadcast(Health, HealthDelta);
+}
+
+void USSHealthComponent::PlayCameraShake()
+{
+	if(IsDead()) return;
+	const auto Player = Cast<APawn>(GetOwner());
+	if(!Player) return;
+
+	const auto Controller = Player->GetController<APlayerController>();
+	if(!Controller || !Controller->PlayerCameraManager) return;
+	//Controller->ClientStartCameraShake()
+	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
 }
 
 bool USSHealthComponent::IsHealthFull() const

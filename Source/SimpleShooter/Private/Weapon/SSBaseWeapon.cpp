@@ -6,7 +6,8 @@
 #include "Engine/DamageEvents.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/Character.h"
-
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 
  ASSBaseWeapon::ASSBaseWeapon()
 {
@@ -152,6 +153,14 @@ void ASSBaseWeapon::StopFire()
  void ASSBaseWeapon::LogAmmo()
  {
 
+ }
+
+ UNiagaraComponent* ASSBaseWeapon::SpawnMuzzleFX()
+ {
+	return 	UNiagaraFunctionLibrary::SpawnSystemAttached
+ 	(MuzzleFX, WeaponMesh, MuzzleSocketName,
+ 		FVector::ZeroVector, FRotator::ZeroRotator,
+ 		EAttachLocation::SnapToTarget, true);
  }
 
 

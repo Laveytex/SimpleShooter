@@ -35,4 +35,5 @@ void ASSLouncherWeapon::MakeShot()
 	//UGameplayStatics::FinishSpawningActor(Projectile, SpawnTransform);
 
 	DecreaseAmmo();
+	SpawnMuzzleFX();
 }

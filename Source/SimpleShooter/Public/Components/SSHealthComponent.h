@@ -7,7 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "SSHealthComponent.generated.h"
 
-
+class UCameraShakeBase;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class SIMPLESHOOTER_API USSHealthComponent : public UActorComponent
@@ -46,6 +46,9 @@ protected:
 	float HealthDelay = 3.3f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealModifire = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	TSubclassOf<UCameraShakeBase> CameraShake;
 	
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -62,4 +65,6 @@ private:
 
 	void HealUpdate();
 	void SetHealt(float NewHealh);
+
+	void PlayCameraShake();
 };

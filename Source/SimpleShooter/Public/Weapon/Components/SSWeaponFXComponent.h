@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "SSCoreTypes.h"
 #include "Components/ActorComponent.h"
 #include "SSWeaponFXComponent.generated.h"
 
@@ -24,9 +24,9 @@ public:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
-	UNiagaraSystem* DefaultEffect;
+	FImpactData DefaultImpactData;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
-	TMap<UPhysicalMaterial*, UNiagaraSystem*> EffectsMap;
+	TMap<UPhysicalMaterial*, FImpactData> ImpactDataMap;
 		
 };

@@ -46,8 +46,8 @@ void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
 		DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this,
 		GetController(), DoFullDamage);
 
-	DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24,
-		FColor::Yellow, false, 5.0f);
+	/*DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24,
+		FColor::Yellow, false, 5.0f);*/
 	WeaponFXComponent->PlayImpactFX(Hit);
 	Destroy();
 }

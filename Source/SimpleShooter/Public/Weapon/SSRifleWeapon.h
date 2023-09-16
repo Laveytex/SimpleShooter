@@ -7,6 +7,8 @@
 #include "SSRifleWeapon.generated.h"
 
 class USSWeaponFXComponent;
+class UNiagaraComponent;
+class UNiagaraSystem;
 
 UCLASS()
 class SIMPLESHOOTER_API ASSRifleWeapon : public ASSBaseWeapon
@@ -20,12 +22,17 @@ public:
 	virtual void StopFire() override;
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float TimeBetweenShots = 0.2f;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float BulletSpreed = 1.5f;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamageAmount = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UNiagaraSystem* TraceFX;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	FString TraceTargetName = "TraceTarget";
 
 	UPROPERTY(VisibleAnywhere, Category = "VFX")
 	USSWeaponFXComponent* WeaponFXComponent;
@@ -35,8 +42,17 @@ protected:
 	virtual  bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) override;
 
 	
-	void MakeDamage(const FHitResult& HitResult);
+	
 
 private:
 	FTimerHandle ShotTimerHandle;
+	
+	UPROPERTY()
+	UNiagaraComponent* MuzzleFXComponent;
+	
+	void MakeDamage(const FHitResult& HitResult);
+	void InitMuzzleFX();
+	void SetMuzzleFXVisibility(bool Visible);
+	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd);
+	
 };

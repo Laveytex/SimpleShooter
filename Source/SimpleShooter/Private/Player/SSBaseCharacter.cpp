@@ -42,7 +42,7 @@ void ASSBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnHealthChanged(HealthComponent->GetHealth());
+	OnHealthChanged(HealthComponent->GetHealth(), 0.0f);
 	HealthComponent->OnDeath.AddUObject(this, &ASSBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASSBaseCharacter::OnHealthChanged);
 
@@ -119,9 +119,9 @@ void ASSBaseCharacter::OnEndRuning()
 
 void ASSBaseCharacter::OnDeath()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("You Dead"));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("You Dead"));
 
-	PlayAnimMontage(DeathAnimMontage);
+	//PlayAnimMontage(DeathAnimMontage);
 	GetCharacterMovement()->DisableMovement();
 	SetLifeSpan(5.0f);
 
@@ -132,9 +132,12 @@ void ASSBaseCharacter::OnDeath()
 
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	WeaponComponent->StopFire();
+
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	GetMesh()->SetSimulatePhysics(true);
 }
 
-void ASSBaseCharacter::OnHealthChanged(float Health)
+void ASSBaseCharacter::OnHealthChanged(float Health,  float HealthDelta)
 {
 	HealtnTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
