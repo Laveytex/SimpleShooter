@@ -3,8 +3,6 @@
 
 #include "Pickups/SSBasePickup.h"
 
-#include "../../../../../../Ue_Engine/UE_5.2/Engine/Plugins/Animation/RigLogic/Source/RigLogicLib/Public/dna/layers/Descriptor.h"
-
 DEFINE_LOG_CATEGORY_STATIC(LogBasePickup, All, All);
 
 // Sets default values
