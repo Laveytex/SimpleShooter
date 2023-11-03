@@ -6,6 +6,8 @@
 #include "Player/SSBaseCharacter.h"
 #include "SSBaseAICharacter.generated.h"
 
+class  UBehaviorTree;
+
 /**
  * 
  */
@@ -14,6 +16,10 @@ class SIMPLESHOOTER_API ASSBaseAICharacter : public ASSBaseCharacter
 {
 	GENERATED_BODY()
 
-	ASSBaseAICharacter();
+public:
+	ASSBaseAICharacter(const FObjectInitializer& ObjInit);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AI")
+	UBehaviorTree* BehaviorTreeAsset;
 	
 };

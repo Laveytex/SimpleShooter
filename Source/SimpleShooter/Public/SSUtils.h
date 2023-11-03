@@ -4,7 +4,7 @@ class SSUtils
 {
 public:
 	template <typename T>
-	static T* GetSSPlayerComponent(APawn* PlayerPawn)
+	static T* GetSSPlayerComponent(AActor* PlayerPawn)
 	{
 		if (!PlayerPawn) return nullptr;
 

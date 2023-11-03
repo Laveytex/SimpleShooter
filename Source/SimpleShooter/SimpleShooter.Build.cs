@@ -9,7 +9,7 @@ public class SimpleShooter : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject",
-			"Engine", "InputCore", "Niagara", "PhysicsCore" });
+			"Engine", "InputCore", "Niagara", "PhysicsCore", "GameplayTasks", "NavigationSystem" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

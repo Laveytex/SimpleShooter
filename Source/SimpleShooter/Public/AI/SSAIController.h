@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "SSAIController.generated.h"
 
+class USSAIPerceptionComponent;
 /**
  * 
  */
@@ -13,5 +14,14 @@ UCLASS()
 class SIMPLESHOOTER_API ASSAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
+public:
+	ASSAIController();
+protected:
+	virtual void OnPossess(APawn* InPawn) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USSAIPerceptionComponent* SSPerceptionComponent;
+
+	virtual void Tick(float DeltaSeconds) override;
 };
