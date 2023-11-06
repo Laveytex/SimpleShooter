@@ -18,3 +18,4 @@ ASSBaseAICharacter::ASSBaseAICharacter(const FObjectInitializer& ObjInt):Super(O
 		GetCharacterMovement()->RotationRate = FRotator(0.0f, 200.0f, 0.0f);
 	}
 }
+

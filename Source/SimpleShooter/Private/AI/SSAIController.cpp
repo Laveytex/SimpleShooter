@@ -3,6 +3,7 @@
 
 #include "AI/SSAIController.h"
 #include "AI/SSBaseAICharacter.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SSAIPerceptionComponent.h"
 
 
@@ -28,6 +29,12 @@ void ASSAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	const auto AimActor = SSPerceptionComponent->GetClosestEnemy();
+	const auto AimActor = GetFocusOnActor();
 	SetFocus(AimActor); 
+}
+
+AActor* ASSAIController::GetFocusOnActor() const
+{
+	if(!GetBlackboardComponent()) return nullptr;
+	return Cast<AActor>(GetBlackboardComponent()->GetValueAsObject(FocusOnKeyName));
 }

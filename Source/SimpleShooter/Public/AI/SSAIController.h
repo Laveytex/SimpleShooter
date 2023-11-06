@@ -19,9 +19,15 @@ public:
 	ASSAIController();
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USSAIPerceptionComponent* SSPerceptionComponent;
 
-	virtual void Tick(float DeltaSeconds) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	FName FocusOnKeyName = "EnemyKey"; 
+
+protected: 
+	AActor* GetFocusOnActor() const;
+	
 };

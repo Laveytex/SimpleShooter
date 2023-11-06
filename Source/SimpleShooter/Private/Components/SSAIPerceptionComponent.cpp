@@ -31,7 +31,7 @@ AActor* USSAIPerceptionComponent::GetClosestEnemy() const
 			const auto CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
 			if(CurrentDistance < BestDistance)
 			{
-				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s = ClosestAnamy / %f = Distance"), *PercieveActor->GetName(), BestDistance));
+				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s = ClosestAnamy / %f = Distance"), *PercieveActor->GetName(), BestDistance));
 				BestDistance = CurrentDistance;
 				BestActor = PercieveActor;
 			}
