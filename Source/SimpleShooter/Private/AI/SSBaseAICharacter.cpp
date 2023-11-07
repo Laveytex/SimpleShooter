@@ -4,9 +4,11 @@
 #include "AI/SSBaseAICharacter.h"
 
 #include "AI/SSAIController.h"
+#include "Components/SSAIWeaponComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
-ASSBaseAICharacter::ASSBaseAICharacter(const FObjectInitializer& ObjInt):Super(ObjInt)
+ASSBaseAICharacter::ASSBaseAICharacter(const FObjectInitializer& ObjInit)
+: Super(ObjInit.SetDefaultSubobjectClass<USSAIWeaponComponent>("WeaponAIComponent"))
 {
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	AIControllerClass = ASSAIController::StaticClass();

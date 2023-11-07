@@ -40,10 +40,22 @@ void ASSBaseWeapon::StopFire()
 
  bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation)
  {
- 	const auto  Controller = GetPlayerController();
- 	if(!Controller) return false;
+	const auto SSCharacter = Cast<ACharacter>(GetOwner());
+ 	if(!SSCharacter) return false;
+
+	if (SSCharacter->IsPlayerControlled())
+	{
+		const auto  Controller = GetPlayerController();
+		if(!Controller) return false;
+		
+		Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
+	}
+	else
+	{
+		ViewLocation = GetMuzzleWorldLocation();
+		ViewRotation = WeaponMesh->GetSocketRotation(MuzzleSocketName);
+	}
  	
- 	Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);
  	return true;
  }
 

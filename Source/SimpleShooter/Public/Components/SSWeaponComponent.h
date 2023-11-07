@@ -19,9 +19,9 @@ class SIMPLESHOOTER_API USSWeaponComponent : public UActorComponent
 public:	
 	USSWeaponComponent();
 	
-	void StartFire();
+	virtual void StartFire();
 	void StopFire();
-	void NextWeapon();
+	virtual void NextWeapon();
 	void Reload();
 
 	bool GetCurrentWeaponUIData(FWeaponUIData& UIData) const;
@@ -48,35 +48,36 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	
-public:
-
-private:
 	UPROPERTY()
 	ASSBaseWeapon* CurrentWeapon = nullptr;
 
 	UPROPERTY()
 	TArray<ASSBaseWeapon*> Weapons;
+
+	bool CanFire() const;
+	bool CanEquip() const;
 	
+	int32 CurrentWeaponIndex = 0;
+	void EquipWeapons(int32 WeaponIndex);
+public:
+
+private:
 	UPROPERTY()
 	UAnimMontage* CurrentReloadAnimMontage = nullptr;
 	
 
-	int32 CurrentWeaponIndex = 0;
+
 	bool EquipAnimInPrograss = false;
 	bool ReloadAnimInPrograss = false;
 	
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
-	void EquipWeapons(int32 WeaponIndex);
 
 	void PlayAnimMontage(UAnimMontage* Animation);
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
-
-	bool CanFire() const;
-	bool CanEquip() const;
+	
 	bool CanReload() const;
 
 	void OnEmpryClip(ASSBaseWeapon* EmptyWeapon);
