@@ -14,8 +14,8 @@ USSFindEnemyService::USSFindEnemyService()
 
 void USSFindEnemyService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
-	const auto Blackbord = OwnerComp.GetBlackboardComponent();
-	if (Blackbord)
+	
+	if (const auto Blackbord = OwnerComp.GetBlackboardComponent())
 	{
 		const auto Controller = OwnerComp.GetOwner();
 		const auto PerceptionComponent = SSUtils::GetSSPlayerComponent<USSAIPerceptionComponent>(Controller);

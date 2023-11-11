@@ -47,7 +47,8 @@ protected:
 	FVector2D LandedDamageVelocity = FVector2D(700.f, 1200.f);
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	FVector2D LandedDamage = FVector2D(10.f, 100.f);
-	
+
+	virtual void OnDeath();
 	
 	virtual void BeginPlay() override;
 
@@ -74,7 +75,7 @@ private:
 	bool IsRun = false;
 	bool IsMovingForwad = false;
 
-	void OnDeath();
+
 	void OnHealthChanged(float Health,  float HealthDelta);
 
 	UFUNCTION()

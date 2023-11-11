@@ -26,12 +26,14 @@ AActor* USSAIPerceptionComponent::GetClosestEnemy() const
 	for(const auto PercieveActor : PercieveActors)
 	{
 		const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(PercieveActor);
+		
+		const auto PercievePawn = Cast<APawn>(PercieveActor);
+
 		if(!HealthComponent->IsDead() && HealthComponent)
 		{
 			const auto CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
-			if(CurrentDistance < BestDistance)
+			if (CurrentDistance < BestDistance)
 			{
-				//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("%s = ClosestAnamy / %f = Distance"), *PercieveActor->GetName(), BestDistance));
 				BestDistance = CurrentDistance;
 				BestActor = PercieveActor;
 			}
