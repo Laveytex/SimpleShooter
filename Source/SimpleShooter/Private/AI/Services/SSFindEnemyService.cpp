@@ -9,7 +9,7 @@
 
 USSFindEnemyService::USSFindEnemyService()
 {
-	NodeName = "FindEnemy";
+	NodeName = "Find Enemy";
 }
 
 void USSFindEnemyService::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)

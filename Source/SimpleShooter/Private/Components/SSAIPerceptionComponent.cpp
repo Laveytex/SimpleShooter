@@ -14,14 +14,14 @@ AActor* USSAIPerceptionComponent::GetClosestEnemy() const
 	GetCurrentlyPerceivedActors(UAISense_Sight::StaticClass(), PercieveActors);
 	if (PercieveActors.Num() == 0) return nullptr;
 	
-	const auto Controller = Cast<ASSAIController>(GetOwner());
-	if (!Controller) return nullptr;
-	
-	const auto Pawn = Controller->GetPawn();
-	if (!Pawn) return nullptr;
-	
-	float BestDistance = MAX_FLT;
-	AActor* BestActor = nullptr;
+	 const auto Controller = Cast<AAIController>(GetOwner());
+    if (!Controller) return nullptr;
+
+    const auto Pawn = Controller->GetPawn();
+    if (!Pawn) return nullptr;
+
+    float BestDistance = MAX_FLT;
+    AActor* BestPawn = nullptr;
 
 	for(const auto PercieveActor : PercieveActors)
 	{
@@ -35,10 +35,10 @@ AActor* USSAIPerceptionComponent::GetClosestEnemy() const
 			if (CurrentDistance < BestDistance)
 			{
 				BestDistance = CurrentDistance;
-				BestActor = PercieveActor;
+				BestPawn = PercieveActor;
 			}
 		}
 	}
 	
-	return BestActor;
+	return BestPawn;
 }
