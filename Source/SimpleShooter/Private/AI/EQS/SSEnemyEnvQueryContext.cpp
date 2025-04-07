@@ -33,5 +33,4 @@ void USSEnemyEnvQueryContext::ProvideContext(FEnvQueryInstance& QueryInstance, F
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("ContextActor faild"));
 	}
-	
 }

@@ -13,32 +13,30 @@ AActor* USSAIPerceptionComponent::GetClosestEnemy() const
 	TArray<AActor*> PercieveActors;
 	GetCurrentlyPerceivedActors(UAISense_Sight::StaticClass(), PercieveActors);
 	if (PercieveActors.Num() == 0) return nullptr;
-	
-	 const auto Controller = Cast<AAIController>(GetOwner());
-    if (!Controller) return nullptr;
 
-    const auto Pawn = Controller->GetPawn();
-    if (!Pawn) return nullptr;
+	const auto Controller = Cast<AAIController>(GetOwner());
+	if (!Controller) return nullptr;
 
-    float BestDistance = MAX_FLT;
-    AActor* BestPawn = nullptr;
+	const auto Pawn = Controller->GetPawn();
+	if (!Pawn) return nullptr;
 
-	for(const auto PercieveActor : PercieveActors)
+	float BestDistance = MAX_FLT;
+	AActor* BestPawn = nullptr;
+
+	for (const auto PercieveActor : PercieveActors)
 	{
-		const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(PercieveActor);
-		
-		const auto PercievePawn = Cast<APawn>(PercieveActor);
+		if (!PercieveActor) continue; // Проверка на nullptr
 
-		if(!HealthComponent->IsDead() && HealthComponent)
+		const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(PercieveActor);
+		if (!HealthComponent || HealthComponent->IsDead()) continue; // Проверка на пустой компонент и мертвого игрока
+
+		const auto CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
+		if (CurrentDistance < BestDistance)
 		{
-			const auto CurrentDistance = (PercieveActor->GetActorLocation() - Pawn->GetActorLocation()).Size();
-			if (CurrentDistance < BestDistance)
-			{
-				BestDistance = CurrentDistance;
-				BestPawn = PercieveActor;
-			}
+			BestDistance = CurrentDistance;
+			BestPawn = PercieveActor;
 		}
 	}
-	
+
 	return BestPawn;
 }
