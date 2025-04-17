@@ -58,7 +58,7 @@ void ASSBasePickup::PickupWasTaken()
 	CollisionComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 	
 	GetRootComponent()->SetVisibility(false, true);
-
+	
 	FTimerHandle RespawnTimerHandle;
 	GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ASSBasePickup::Respawn, RespawnTime);
 }
