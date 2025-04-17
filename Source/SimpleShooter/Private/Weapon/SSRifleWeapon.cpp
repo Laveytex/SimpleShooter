@@ -35,18 +35,17 @@ void ASSRifleWeapon::MakeShot()
 	}
 
 	FVector TraceStart, TraceEnd;
-	if(!GetTraceData(TraceStart, TraceEnd))
+	if (!GetTraceData(TraceStart, TraceEnd))
 	{
 		StopFire();
 		return;
 	}
-	
-	
+
 	FHitResult HitResult;
 	MakeHit(HitResult, TraceStart, TraceEnd);
 
 	FVector TraceFXEnd = TraceEnd;
-	
+
 	if (HitResult.bBlockingHit)
 	{
 		TraceFXEnd = HitResult.ImpactPoint;
@@ -62,11 +61,12 @@ bool ASSRifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 {
 	FVector ViewLocation;
 	FRotator ViewRotation;
-	if(!GetPlayerViewPoint(ViewLocation, ViewRotation)) return  false;
- 	
+	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
+
 	TraceStart = ViewLocation; //SocketTransform.GetLocation();
 	const auto HalfRad = FMath::DegreesToRadians(BulletSpreed);
-	const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad); //SocketTransform.GetRotation().GetForwardVector();
+	const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
+	//SocketTransform.GetRotation().GetForwardVector();
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 	return true;
 }
@@ -89,7 +89,7 @@ void ASSRifleWeapon::InitMuzzleFX()
 
 void ASSRifleWeapon::SetMuzzleFXVisibility(bool Visible)
 {
-	if(MuzzleFXComponent)
+	if (MuzzleFXComponent)
 	{
 		MuzzleFXComponent->SetPaused(!Visible);
 		MuzzleFXComponent->SetVisibility(Visible, false);
@@ -105,4 +105,3 @@ void ASSRifleWeapon::SpawnTraceFX(const FVector& TraceStart, const FVector& Trac
 		TraceFXComponent->SetNiagaraVariableVec3(TraceTargetName, TraceEnd);
 	}
 }
-
