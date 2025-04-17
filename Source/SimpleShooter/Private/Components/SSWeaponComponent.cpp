@@ -77,7 +77,7 @@ void USSWeaponComponent::SpawnWeapons()
 		auto Weapon = GetWorld()->SpawnActor<ASSBaseWeapon>(OneWeaponData.WeaponClass);
 		if (!Weapon) continue;
 
-		Weapon->OnClipEmpty.AddUObject(this, &USSWeaponComponent::OnEmpryClip);
+		Weapon->OnClipEmpty.AddUObject(this, &USSWeaponComponent::OnEmptyClip);
 		Weapon->SetOwner(Character);
 		Weapons.Add(Weapon);
 		AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);
@@ -167,7 +167,7 @@ bool USSWeaponComponent::CanReload() const
 	&& CurrentWeapon->CanReload();
 }
 
-void USSWeaponComponent::OnEmpryClip(ASSBaseWeapon* EmptyWeapon)
+void USSWeaponComponent::OnEmptyClip(ASSBaseWeapon* EmptyWeapon)
 {
 	if(!EmptyWeapon) return;
 	
@@ -233,6 +233,18 @@ bool USSWeaponComponent::TryToAddAmmo(TSubclassOf<ASSBaseWeapon> WeaponType, int
 		if (Weapon && Weapon->IsA(WeaponType))
 		{
 			return Weapon->TryToAddAmmo(ClipAmount);
+		}
+	}
+	return false;
+}
+
+bool USSWeaponComponent::NeedAmmo(const TSubclassOf<ASSBaseWeapon> WeaponType)
+{
+	for (const auto Weapon : Weapons)
+	{
+		if (Weapon && Weapon->IsA(WeaponType))
+		{
+			return !Weapon->IsAmmoFull();
 		}
 	}
 	return false;

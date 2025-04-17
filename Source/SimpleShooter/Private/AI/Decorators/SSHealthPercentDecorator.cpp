@@ -9,7 +9,6 @@
 USSHealthPercentDecorator::USSHealthPercentDecorator()
 {
 	NodeName = "HealthPercent";
-
 }
 
 bool USSHealthPercentDecorator::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) const

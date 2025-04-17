@@ -36,7 +36,7 @@ public:
 	FAmmoData GetAmmoData() const { return CurrentAmmo; }
 
 	bool TryToAddAmmo(int32 ClipsAmount);
-
+	bool IsAmmoFull() const;
 	bool IsAmmoEmpty() const;
 
 protected:
@@ -75,7 +75,6 @@ protected:
 	void DecreaseAmmo();
 	
 	bool IsClipEmpty() const;
-	bool IsAmmoFull() const;
 	
 	void LogAmmo();
 

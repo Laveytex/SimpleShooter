@@ -28,7 +28,8 @@ public:
 
 	bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
 
-	bool TryToAddAmmo (TSubclassOf<ASSBaseWeapon> WeaponType, int32 ClipAmount);
+	bool TryToAddAmmo(TSubclassOf<ASSBaseWeapon> WeaponType, int32 ClipAmount);
+	bool NeedAmmo(TSubclassOf<ASSBaseWeapon> WeaponType);
 	
 
 protected:
@@ -80,7 +81,7 @@ private:
 	
 	bool CanReload() const;
 
-	void OnEmpryClip(ASSBaseWeapon* EmptyWeapon);
+	void OnEmptyClip(ASSBaseWeapon* EmptyWeapon);
 	void ChangeClip();
 	
 	
