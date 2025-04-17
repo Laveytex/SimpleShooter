@@ -76,7 +76,7 @@ private:
 	bool IsMovingForwad = false;
 
 
-	void OnHealthChanged(float Health,  float HealthDelta);
+	void OnHealthChanged(float Health,  float HealthDelta) const;
 
 	UFUNCTION()
 	void OnGroundLanded(const FHitResult& HitResult);

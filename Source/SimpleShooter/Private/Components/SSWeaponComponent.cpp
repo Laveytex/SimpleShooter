@@ -77,7 +77,7 @@ void USSWeaponComponent::SpawnWeapons()
 		auto Weapon = GetWorld()->SpawnActor<ASSBaseWeapon>(OneWeaponData.WeaponClass);
 		if (!Weapon) continue;
 
-		Weapon->OnClipeEmpty.AddUObject(this, &USSWeaponComponent::OnEmpryClip);
+		Weapon->OnClipEmpty.AddUObject(this, &USSWeaponComponent::OnEmpryClip);
 		Weapon->SetOwner(Character);
 		Weapons.Add(Weapon);
 		AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);

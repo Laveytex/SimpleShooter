@@ -87,7 +87,7 @@ void ASSRifleWeapon::InitMuzzleFX()
 	SetMuzzleFXVisibility(true);
 }
 
-void ASSRifleWeapon::SetMuzzleFXVisibility(bool Visible)
+void ASSRifleWeapon::SetMuzzleFXVisibility(const bool Visible) const
 {
 	if (MuzzleFXComponent)
 	{
@@ -96,7 +96,7 @@ void ASSRifleWeapon::SetMuzzleFXVisibility(bool Visible)
 	}
 }
 
-void ASSRifleWeapon::SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd)
+void ASSRifleWeapon::SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd) const
 {
 	const auto TraceFXComponent = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(),
 		TraceFX, TraceStart);

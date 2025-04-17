@@ -29,7 +29,7 @@ void ASSBaseWeapon::StopFire()
  	
  }
 
- APlayerController* ASSBaseWeapon::GetPlayerController()
+ APlayerController* ASSBaseWeapon::GetPlayerController() const
  {
  	const auto Player = Cast<ACharacter>(GetOwner());
  	if (!Player) return nullptr;
@@ -38,7 +38,7 @@ void ASSBaseWeapon::StopFire()
  	
  }
 
- bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation)
+ bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
  {
 	const auto SSCharacter = Cast<ACharacter>(GetOwner());
  	if(!SSCharacter) return false;
@@ -77,7 +77,7 @@ void ASSBaseWeapon::StopFire()
 	return true;
  }
 
- void ASSBaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd)
+ void ASSBaseWeapon::MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd) const
  {
  	if(!GetWorld()) return;
  	FCollisionQueryParams CollisionParams;
@@ -95,7 +95,7 @@ void ASSBaseWeapon::StopFire()
     if (IsClipEmpty() && !IsAmmoEmpty())
     {
     	StopFire();
-    	OnClipeEmpty.Broadcast(this);
+    	OnClipEmpty.Broadcast(this);
     }
  }
 
@@ -140,7 +140,7 @@ void ASSBaseWeapon::StopFire()
     if (IsAmmoEmpty())
     {
 	   CurrentAmmo.Clips =  FMath::Clamp(ClipsAmount, 0, DefaultAmmo.Clips + 1);
-    	OnClipeEmpty.Broadcast(this);
+    	OnClipEmpty.Broadcast(this);
     }
  	else if (CurrentAmmo.Clips < DefaultAmmo.Clips)
     {
@@ -167,7 +167,7 @@ void ASSBaseWeapon::StopFire()
 
  }
 
- UNiagaraComponent* ASSBaseWeapon::SpawnMuzzleFX()
+ UNiagaraComponent* ASSBaseWeapon::SpawnMuzzleFX() const
  {
 	return 	UNiagaraFunctionLibrary::SpawnSystemAttached
  	(MuzzleFX, WeaponMesh, MuzzleSocketName,

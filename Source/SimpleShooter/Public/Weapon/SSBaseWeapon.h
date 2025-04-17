@@ -23,7 +23,7 @@ class SIMPLESHOOTER_API ASSBaseWeapon : public AActor
 public:	
 	ASSBaseWeapon();
 	
-	FOnClipeEmptySigyature OnClipeEmpty;
+	FOnClipeEmptySigyature OnClipEmpty;
 
 	virtual void StartFire();
 	virtual void StopFire();
@@ -63,14 +63,14 @@ protected:
 
 	virtual void MakeShot();
 	
-	APlayerController* GetPlayerController();
-	bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation);
+	APlayerController* GetPlayerController() const;
+	bool GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const;
 
 	FVector GetMuzzleWorldLocation() const;
 
 	virtual  bool GetTraceData(FVector& TraceStart, FVector& TraceEnd);
 	
-	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd);
+	void MakeHit(FHitResult& HitResult, const FVector& TraceStart, const FVector& TraceEnd) const;
 
 	void DecreaseAmmo();
 	
@@ -79,7 +79,7 @@ protected:
 	
 	void LogAmmo();
 
-	UNiagaraComponent* SpawnMuzzleFX();
+	UNiagaraComponent* SpawnMuzzleFX() const;
 	
 private:
 	FAmmoData CurrentAmmo;

@@ -137,7 +137,7 @@ void ASSBaseCharacter::OnDeath()
 	GetMesh()->SetSimulatePhysics(true);
 }
 
-void ASSBaseCharacter::OnHealthChanged(float Health,  float HealthDelta)
+void ASSBaseCharacter::OnHealthChanged(const float Health,  float HealthDelta) const
 {
 	HealtnTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
@@ -145,9 +145,6 @@ void ASSBaseCharacter::OnHealthChanged(float Health,  float HealthDelta)
 void ASSBaseCharacter::OnGroundLanded(const FHitResult& HitResult)
 {
 	const auto FallVelocityZ = -GetVelocity().Z;
-
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
-		FString::Printf(TEXT("%f = Velocity"), FallVelocityZ));
 
 	if(FallVelocityZ < LandedDamageVelocity.X) return;
 	const auto FinalDamage = FMath::GetMappedRangeValueClamped
