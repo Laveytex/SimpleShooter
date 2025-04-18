@@ -10,11 +10,9 @@
 #include "Weapon/SSBaseWeapon.h"
 
 
-USSWeaponComponent::USSWeaponComponent()
+USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
 {
-
 	PrimaryComponentTick.bCanEverTick = false;
-
 }
 
 void USSWeaponComponent::StartFire()
@@ -56,7 +54,7 @@ void USSWeaponComponent::BeginPlay()
 void USSWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	CurrentWeapon = nullptr;
-	for (auto Weapon : Weapons)
+	for (const auto Weapon : Weapons)
 	{
 		Weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 		Weapon->Destroy();
@@ -82,8 +80,6 @@ void USSWeaponComponent::SpawnWeapons()
 		Weapons.Add(Weapon);
 		AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);
 	}
-	
-	
 }
 
 void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName)
@@ -116,11 +112,11 @@ void USSWeaponComponent::EquipWeapons(int32 WeaponIndex)
 		{ return Data.WeaponClass == CurrentWeapon->GetClass();});
 	CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
 	AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
-	EquipAnimInPrograss = true;
+	EquipAnimInProgress = true;
 	PlayAnimMontage(EquipAnimMontage);
 }
 
-void USSWeaponComponent::PlayAnimMontage(UAnimMontage* Animation)
+void USSWeaponComponent::PlayAnimMontage(UAnimMontage* Animation) const
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character) return;
@@ -149,21 +145,21 @@ void USSWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || Character->GetMesh() != MeshComponent) return;
-	EquipAnimInPrograss = false;
+	EquipAnimInProgress = false;
 }
 
 void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || Character->GetMesh() != MeshComponent) return;
-	ReloadAnimInPrograss = false;
+	ReloadAnimInProgress = false;
 }
 
 bool USSWeaponComponent::CanReload() const
 {
-	return !EquipAnimInPrograss
+	return !EquipAnimInProgress
 	&& CurrentWeapon
-	&& !ReloadAnimInPrograss
+	&& !ReloadAnimInProgress
 	&& CurrentWeapon->CanReload();
 }
 
@@ -192,18 +188,18 @@ void USSWeaponComponent::ChangeClip()
 	if(!CanReload()) return;
 	CurrentWeapon->StopFire();
 	CurrentWeapon->ChangeClip();
-	ReloadAnimInPrograss = true;
+	ReloadAnimInProgress = true;
 	PlayAnimMontage(CurrentReloadAnimMontage);
 }
 
 bool USSWeaponComponent::CanFire() const
 {
-	return !EquipAnimInPrograss && CurrentWeapon && !ReloadAnimInPrograss;
+	return !EquipAnimInProgress && CurrentWeapon && !ReloadAnimInProgress;
 }
 
 bool USSWeaponComponent::CanEquip() const
 {
-	return !EquipAnimInPrograss && !ReloadAnimInPrograss;
+	return !EquipAnimInProgress && !ReloadAnimInProgress;
 }
 
 bool USSWeaponComponent::GetCurrentWeaponUIData(FWeaponUIData& UIData) const

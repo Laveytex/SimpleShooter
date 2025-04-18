@@ -68,13 +68,13 @@ private:
 	
 
 
-	bool EquipAnimInPrograss = false;
-	bool ReloadAnimInPrograss = false;
+	bool EquipAnimInProgress = false;
+	bool ReloadAnimInProgress = false;
 	
 	void SpawnWeapons();
 	void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
 
-	void PlayAnimMontage(UAnimMontage* Animation);
+	void PlayAnimMontage(UAnimMontage* Animation) const;
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
