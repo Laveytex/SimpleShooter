@@ -122,8 +122,6 @@ void ASSBaseWeapon::StopFire()
     {
     	if(CurrentAmmo.Clips == 0) return;
 	    CurrentAmmo.Clips--;
-    	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
-    	FString::Printf(TEXT("-----ClipChanged-----")));
     }
  	CurrentAmmo.Bullets = DefaultAmmo.Bullets;
  }
@@ -133,7 +131,7 @@ void ASSBaseWeapon::StopFire()
  	return CurrentAmmo.Bullets < DefaultAmmo.Bullets && CurrentAmmo.Clips > 0;
  }
 
- bool ASSBaseWeapon::TryToAddAmmo(int32 ClipsAmount)
+ bool ASSBaseWeapon::TryToAddAmmo(const int32 ClipsAmount)
  {
  	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <=0) return false;
 
@@ -179,10 +177,8 @@ void ASSBaseWeapon::StopFire()
  void ASSBaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-
  	CurrentAmmo = DefaultAmmo;
- 	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("%s = FloatVariable"), DefaultAmmo.Bullets));
-}
+ }
 
  void ASSBaseWeapon::MakeShot()
  {

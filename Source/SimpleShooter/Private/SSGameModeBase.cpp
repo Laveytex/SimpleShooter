@@ -8,6 +8,8 @@
 #include "Player/SSPlayerController.h"
 #include "UI/SSGameHUD.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogSSGameModBase, All, All);
+
 ASSGameModeBase::ASSGameModeBase()
 {
 	DefaultPawnClass = ASSBaseCharacter::StaticClass();
@@ -20,6 +22,9 @@ void ASSGameModeBase::StartPlay()
 	Super::StartPlay();
 
 	SpawnBots();
+
+	CurrentRound = 1;
+	StartGameRound();
 }
 
 UClass* ASSGameModeBase::GetDefaultPawnClassForController_Implementation(AController* InController)
@@ -43,4 +48,55 @@ void ASSGameModeBase::SpawnBots()
 		const auto SSAIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass, SpawnInfo);
 		RestartPlayer(SSAIController);
 	}
+}
+
+void ASSGameModeBase::StartGameRound()
+{
+	RoundCountDown = GameData.RoundTime;
+	GetWorldTimerManager().SetTimer
+	(GameRoundTimerHandle, this, &ASSGameModeBase::GameTimerUpdate, 1.f, true);
+}
+
+void ASSGameModeBase::GameTimerUpdate()
+{
+	UE_LOG(LogSSGameModBase, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum)
+
+	/*const auto TimeRate = GetWorldTimerManager().GetTimerRate(GameRoundTimerHandle);
+	RoundCountDown -= TimeRate;*/
+
+	if (--RoundCountDown == 0 )
+	{
+		GetWorldTimerManager().ClearTimer(GameRoundTimerHandle);
+
+		if (CurrentRound + 1 <= GameData.RoundsNum)
+		{
+			++CurrentRound;
+			ResetPlayers();
+			StartGameRound();
+		}
+		else
+		{
+			UE_LOG(LogSSGameModBase, Display, TEXT("=========GAME OVER========="))
+		}
+	}
+}
+
+void ASSGameModeBase::ResetPlayers()
+{
+	if (!GetWorld()) return;
+	
+	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+	{
+		ResetOnePlayers(It->Get());
+	}
+}
+
+void ASSGameModeBase::ResetOnePlayers(AController* InController)
+{
+	if (InController && InController->GetPawn())
+	{
+		InController->GetPawn()->Reset();
+	}
+	
+	RestartPlayer(InController);
 }

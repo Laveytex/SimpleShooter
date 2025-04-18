@@ -12,6 +12,8 @@ ASSAIController::ASSAIController()
 	
 	SSPerceptionComponent = CreateDefaultSubobject<USSAIPerceptionComponent>("SSPerceptionComponent");
 	SetPerceptionComponent(*SSPerceptionComponent);
+
+	bWantsPlayerState = true;
 }
 
 void ASSAIController::OnPossess(APawn* InPawn)
