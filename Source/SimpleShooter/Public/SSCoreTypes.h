@@ -75,6 +75,7 @@ struct FDecalData
 
 	
 };
+
 USTRUCT(BlueprintType)
 struct FImpactData
 {
@@ -86,4 +87,13 @@ struct FImpactData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	FDecalData DecalData;
 	
+};
+
+USTRUCT(BlueprintType)
+struct FGameData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game", meta = (ClampMin = "0", ClampMax = "100"))
+	int32 PlayersNum = 2;
 };
