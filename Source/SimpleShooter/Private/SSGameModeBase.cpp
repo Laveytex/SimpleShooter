@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "Player/SSBaseCharacter.h"
 #include "Player/SSPlayerController.h"
+#include "Player/SSPlayerState.h"
 #include "UI/SSGameHUD.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogSSGameModBase, All, All);
@@ -15,6 +16,7 @@ ASSGameModeBase::ASSGameModeBase()
 	DefaultPawnClass = ASSBaseCharacter::StaticClass();
 	PlayerControllerClass = ASSPlayerController::StaticClass();
 	HUDClass = AMyHUD::StaticClass();
+	PlayerStateClass = ASSPlayerState::StaticClass();
 }
 
 void ASSGameModeBase::StartPlay()
@@ -22,6 +24,7 @@ void ASSGameModeBase::StartPlay()
 	Super::StartPlay();
 
 	SpawnBots();
+	CreateTeamsInfo();
 
 	CurrentRound = 1;
 	StartGameRound();
@@ -54,7 +57,7 @@ void ASSGameModeBase::StartGameRound()
 {
 	RoundCountDown = GameData.RoundTime;
 	GetWorldTimerManager().SetTimer
-	(GameRoundTimerHandle, this, &ASSGameModeBase::GameTimerUpdate, 1.f, true);
+		(GameRoundTimerHandle, this, &ASSGameModeBase::GameTimerUpdate, 1.f, true);
 }
 
 void ASSGameModeBase::GameTimerUpdate()
@@ -64,7 +67,7 @@ void ASSGameModeBase::GameTimerUpdate()
 	/*const auto TimeRate = GetWorldTimerManager().GetTimerRate(GameRoundTimerHandle);
 	RoundCountDown -= TimeRate;*/
 
-	if (--RoundCountDown == 0 )
+	if (--RoundCountDown == 0)
 	{
 		GetWorldTimerManager().ClearTimer(GameRoundTimerHandle);
 
@@ -84,19 +87,63 @@ void ASSGameModeBase::GameTimerUpdate()
 void ASSGameModeBase::ResetPlayers()
 {
 	if (!GetWorld()) return;
-	
+
 	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
 	{
 		ResetOnePlayers(It->Get());
 	}
 }
 
-void ASSGameModeBase::ResetOnePlayers(AController* InController)
+void ASSGameModeBase::ResetOnePlayers(AController* Controller)
 {
-	if (InController && InController->GetPawn())
+	if (Controller && Controller->GetPawn())
 	{
-		InController->GetPawn()->Reset();
+		Controller->GetPawn()->Reset();
 	}
-	
-	RestartPlayer(InController);
+	RestartPlayer(Controller);
+	SetPlayerColor(Controller);
+}
+
+void ASSGameModeBase::CreateTeamsInfo()
+{
+	if (!GetWorld()) return;
+
+	int32 TeamID = 1;
+
+	for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+	{
+		const auto Controller = It->Get();
+		if (!Controller) continue;
+
+		const auto PlayerState = Cast<ASSPlayerState>(Controller->PlayerState);
+		if (!PlayerState) continue;
+
+		PlayerState->SetTeamID(TeamID);
+		PlayerState->SetTeamColor(DetermineColorByTeamID(TeamID));
+		SetPlayerColor(Controller);
+		
+		TeamID = TeamID == 1 ? 2 : 1;
+	}
+}
+
+FLinearColor ASSGameModeBase::DetermineColorByTeamID(const int32 TeamID)
+{
+	if (TeamID - 1 < GameData.TeamColors.Num())
+	{
+		return GameData.TeamColors[TeamID - 1];
+	}
+	return GameData.DefaultTeamColor;
+}
+
+void ASSGameModeBase::SetPlayerColor(const AController* Controller)
+{
+	if (!Controller) return;
+
+	const auto Character = Cast<ASSBaseCharacter>(Controller->GetPawn());
+	if (!Character) return;
+
+	const auto PlayerState = Cast<ASSPlayerState>(Controller->PlayerState);
+	if (!PlayerState) return;
+
+	Character->SetPlayerColor(PlayerState->GetTeamColor());
 }

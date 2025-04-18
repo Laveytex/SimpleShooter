@@ -94,6 +94,14 @@ float ASSBaseCharacter::GetMovementDirection() const
 	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
 
+void ASSBaseCharacter::SetPlayerColor(const FLinearColor& Color) const
+{
+	const auto MaterialInst = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);
+	if (!MaterialInst) return;
+
+	MaterialInst->SetVectorParameterValue(MaterialColorName, Color);
+}
+
 void ASSBaseCharacter::MoveForward(float Amount)
 {
 	IsMovingForwad = Amount > 0.0f;
