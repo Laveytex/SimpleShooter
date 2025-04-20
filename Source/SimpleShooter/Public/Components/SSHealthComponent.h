@@ -45,7 +45,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealthDelay = 3.3f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
-	float HealModifire = 5.f;
+	float HealModifier = 5.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	TSubclassOf<UCameraShakeBase> CameraShake;
@@ -64,7 +64,9 @@ private:
 	FTimerHandle HealTimerHandle;
 
 	void HealUpdate();
-	void SetHealt(float NewHealh);
+	void SetHealth(float NewHealth);
 
-	void PlayCameraShake();
+	void PlayCameraShake() const;
+
+	void Killed(const AController* KillerController) const;
 };

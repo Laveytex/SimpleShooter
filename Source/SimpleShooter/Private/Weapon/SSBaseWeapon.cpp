@@ -15,8 +15,6 @@
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("SkeletalMesh");
 	SetRootComponent(WeaponMesh);
-	
-
 }
 
  void ASSBaseWeapon::StartFire()
@@ -29,15 +27,6 @@ void ASSBaseWeapon::StopFire()
  	
  }
 
- APlayerController* ASSBaseWeapon::GetPlayerController() const
- {
- 	const auto Player = Cast<ACharacter>(GetOwner());
- 	if (!Player) return nullptr;
- 	
-	return Player->GetController<APlayerController>();
- 	
- }
-
  bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
  {
 	const auto SSCharacter = Cast<ACharacter>(GetOwner());
@@ -45,7 +34,7 @@ void ASSBaseWeapon::StopFire()
 
 	if (SSCharacter->IsPlayerControlled())
 	{
-		const auto  Controller = GetPlayerController();
+		const auto  Controller = SSCharacter->GetController<APlayerController>();
 		if(!Controller) return false;
 		
 		Controller->GetPlayerViewPoint(ViewLocation, ViewRotation);

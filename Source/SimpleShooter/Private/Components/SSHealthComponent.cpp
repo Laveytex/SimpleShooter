@@ -4,6 +4,7 @@
 #include "Components/SSHealthComponent.h"
 
 
+#include "SSGameModeBase.h"
 #include "Player/SSBaseCharacter.h"
 
 // Sets default values for this component's properties
@@ -17,7 +18,7 @@ USSHealthComponent::USSHealthComponent()
 void USSHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	SetHealt(MaxHealth);
+	SetHealth(MaxHealth);
 	
 	AActor* ComponentOwner = GetOwner();
 	if (ComponentOwner)
@@ -32,7 +33,7 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 	if (Damage <= 0.0f || IsDead() || !GetWorld()) return;
 	HealTime = HealthDelay;
 	
-	SetHealt(Health - Damage);
+	SetHealth(Health - Damage);
 
 	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
 	
@@ -41,6 +42,7 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 	//Health -= Damage;
 	if (IsDead())
 	{
+		Killed(InstigatedBy);
 		OnDeath.Broadcast();
 	}
 	else if (AutoHeal && GetWorld())
@@ -53,7 +55,7 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 
 void USSHealthComponent::HealUpdate()
 {
-	SetHealt(Health + HealModifire);
+	SetHealth(Health + HealModifier);
 	
 	if (IsHealthFull() && GetWorld())
 	{
@@ -61,15 +63,15 @@ void USSHealthComponent::HealUpdate()
 	}
 }
 
-void USSHealthComponent::SetHealt(float NewHealh)
+void USSHealthComponent::SetHealth(float NewHealth)
 {
-	const auto  NextHealth = FMath::Clamp(NewHealh, 0.0f, MaxHealth);
+	const auto  NextHealth = FMath::Clamp(NewHealth, 0.0f, MaxHealth);
 	const auto HealthDelta = NextHealth - Health;
 	Health = NextHealth;
 	OnHealthChanged.Broadcast(Health, HealthDelta);
 }
 
-void USSHealthComponent::PlayCameraShake()
+void USSHealthComponent::PlayCameraShake() const
 {
 	if(IsDead()) return;
 	const auto Player = Cast<APawn>(GetOwner());
@@ -81,16 +83,26 @@ void USSHealthComponent::PlayCameraShake()
 	Controller->PlayerCameraManager->StartCameraShake(CameraShake);
 }
 
+void USSHealthComponent::Killed(const AController* KillerController) const
+{
+	const auto GameMode = Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
+	if(!GameMode) return;
+	const auto Player = Cast<APawn>(GetOwner());
+	const auto VictimController = Player ? Player->Controller : nullptr;
+
+	GameMode->Killed(KillerController, VictimController);
+}
+
 bool USSHealthComponent::IsHealthFull() const
 {
 	return  FMath::IsNearlyEqual(Health, MaxHealth);
 }
 
-bool USSHealthComponent::TryToAddHealth(int32 HealthAmount)
+bool USSHealthComponent::TryToAddHealth(const int32 HealthAmount)
 {
 	if (IsDead() || IsHealthFull()) return false;
 	
-	SetHealt(Health + HealthAmount);
+	SetHealth(Health + HealthAmount);
 	
 	return true; 
 }
