@@ -4,6 +4,8 @@
 #include "SSGameModeBase.h"
 
 #include "AIController.h"
+#include "SSUtils.h"
+#include "Components/SSRespawnComponent.h"
 #include "Player/SSBaseCharacter.h"
 #include "Player/SSPlayerController.h"
 #include "Player/SSPlayerState.h"
@@ -39,20 +41,22 @@ UClass* ASSGameModeBase::GetDefaultPawnClassForController_Implementation(AContro
 	return Super::GetDefaultPawnClassForController_Implementation(InController);
 }
 
-void ASSGameModeBase::Killed(const AController* KillerController, const AController* VictimActor)
+void ASSGameModeBase::Killed(const AController* KillerController, AController* VictimController) const
 {
 	const auto KillerPlayerState = KillerController ? Cast<ASSPlayerState>(KillerController->PlayerState) : nullptr;
-	const auto VictimPlayerState = VictimActor ? Cast<ASSPlayerState>(VictimActor->PlayerState) : nullptr;
+	const auto VictimPlayerState = VictimController ? Cast<ASSPlayerState>(VictimController->PlayerState) : nullptr;
 
 	if (KillerController)
 	{
 		KillerPlayerState->AddKill();
 	}
 
-	if (VictimActor)
+	if (VictimController)
 	{
 		VictimPlayerState->AddDeath();
 	}
+
+	StartRespawn(VictimController);
 }
 
 void ASSGameModeBase::SpawnBots()
@@ -179,4 +183,17 @@ void ASSGameModeBase::LogPlayerInfo() const
 
 		PlayerState->LogInfo();
 	}
+}
+
+void ASSGameModeBase::StartRespawn(AController* Controller) const
+{
+	const auto RespawnComponent = SSUtils::GetSSPlayerComponent<USSRespawnComponent>(Controller);
+	if(!RespawnComponent) return;
+
+	RespawnComponent->Respawn(GameData.RespawnTime);
+}
+
+void ASSGameModeBase::RespawnRequest(AController* Controller)
+{
+	ResetOnePlayers(Controller);
 }

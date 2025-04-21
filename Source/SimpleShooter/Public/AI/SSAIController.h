@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "SSAIController.generated.h"
 
+class USSRespawnComponent;
 class USSAIPerceptionComponent;
 /**
  * 
@@ -17,6 +18,7 @@ class SIMPLESHOOTER_API ASSAIController : public AAIController
 
 public:
 	ASSAIController();
+	
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void Tick(float DeltaSeconds) override;
@@ -24,10 +26,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USSAIPerceptionComponent* SSPerceptionComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USSRespawnComponent* SSRespawnComponent;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	FName FocusOnKeyName = "EnemyKey"; 
-
-protected: 
+	
 	AActor* GetFocusOnActor() const;
 	
 };

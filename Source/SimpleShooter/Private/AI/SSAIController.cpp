@@ -5,13 +5,16 @@
 #include "AI/SSBaseAICharacter.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SSAIPerceptionComponent.h"
+#include "Components/SSRespawnComponent.h"
 
 
-ASSAIController::ASSAIController()
+ASSAIController::ASSAIController(): SSPerceptionComponent(nullptr), SSRespawnComponent(nullptr)
 {
 	
 	SSPerceptionComponent = CreateDefaultSubobject<USSAIPerceptionComponent>("SSPerceptionComponent");
 	SetPerceptionComponent(*SSPerceptionComponent);
+
+	SSRespawnComponent = CreateDefaultSubobject<USSRespawnComponent>("SSRespawnComponent");
 
 	bWantsPlayerState = true;
 }
