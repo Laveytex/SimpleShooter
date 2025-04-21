@@ -20,7 +20,11 @@ public:
 	virtual UClass* GetDefaultPawnClassForController_Implementation(AController* InController) override;
 
 	static void Killed(const AController* KillerController, const AController* VictimActor);
-	
+
+	FGameData GetGameDate() const { return GameData; }
+	int32 GetCurrentRoundNum() const { return CurrentRound; }
+	int32 GetRoundSecondsRemaining() const { return RoundCountDown; }
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Game")
 	TSubclassOf<AAIController> AIControllerClass;

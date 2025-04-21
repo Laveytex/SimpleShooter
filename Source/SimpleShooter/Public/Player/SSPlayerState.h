@@ -14,7 +14,7 @@ class SIMPLESHOOTER_API ASSPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	void SetTeamID(const int32 ID) { TeamID = ID; }
 	int32 GetTeamID() const { return TeamID; }
 
@@ -22,13 +22,17 @@ class SIMPLESHOOTER_API ASSPlayerState : public APlayerState
 	FLinearColor GetTeamColor() const { return TeamColor; }
 
 	void AddKill() { ++KillsNum; }
-	int32 GetKillsNum() const { return KillsNum; }
 	
+	UFUNCTION(BlueprintCallable)
+	int32 GetKillsNum() const { return KillsNum; }
+
 	void AddDeath() { ++DeathsNum; }
+	
+	UFUNCTION(BlueprintCallable)
 	int32 GetDeathsNum() const { return DeathsNum; }
 
 	void LogInfo();
-	
+
 private:
 	int32 TeamID;
 	FLinearColor TeamColor;

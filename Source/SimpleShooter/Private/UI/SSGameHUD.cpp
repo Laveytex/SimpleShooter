@@ -16,7 +16,8 @@ void AMyHUD::DrawHUD()
 void AMyHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
+	
+	const auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
 	if (PlayerHUDWidget)
 	{
 		PlayerHUDWidget->AddToViewport();
@@ -25,12 +26,12 @@ void AMyHUD::BeginPlay()
 
 void AMyHUD::DrawCrossHair()
 {
-	int32 SizeX = Canvas->SizeX;
-	int32 SizeY = Canvas->SizeY;
+	const int32 SizeX = Canvas->SizeX;
+	const int32 SizeY = Canvas->SizeY;
 	const TInterval<float> Center(SizeX * 0.5f, SizeY * 0.5);
 
-	const float HalfLineSize = 10.0f;
-	const float LineThickness = 2.0f;
+	constexpr float HalfLineSize = 10.0f;
+	constexpr float LineThickness = 2.0f;
 	const FLinearColor LineColor = FLinearColor::Green;
  	
 	DrawLine(Center.Min - HalfLineSize, Center.Max,
