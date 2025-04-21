@@ -13,6 +13,8 @@
 
 DEFINE_LOG_CATEGORY_STATIC(LogSSGameModBase, All, All);
 
+constexpr static int32 MinRoundTimeForRespawn = 10; 
+
 ASSGameModeBase::ASSGameModeBase()
 {
 	DefaultPawnClass = ASSBaseCharacter::StaticClass();
