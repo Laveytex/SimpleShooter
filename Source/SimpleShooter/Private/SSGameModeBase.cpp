@@ -48,11 +48,14 @@ void ASSGameModeBase::Killed(const AController* KillerController, AController* V
 	const auto KillerPlayerState = KillerController ? Cast<ASSPlayerState>(KillerController->PlayerState) : nullptr;
 	const auto VictimPlayerState = VictimController ? Cast<ASSPlayerState>(VictimController->PlayerState) : nullptr;
 
-	if (KillerController)
+	if (KillerPlayerState->GetTeamID() != VictimPlayerState->GetTeamID())
 	{
-		KillerPlayerState->AddKill();
+		if (KillerController)
+		{
+			KillerPlayerState->AddKill();
+		}
 	}
-
+	
 	if (VictimController)
 	{
 		VictimPlayerState->AddDeath();
@@ -189,9 +192,12 @@ void ASSGameModeBase::LogPlayerInfo() const
 
 void ASSGameModeBase::StartRespawn(AController* Controller) const
 {
+	const auto RespawnAvailable = RoundCountDown < MinRoundTimeForRespawn + GameData.RespawnTime;
+	if (RespawnAvailable) return;
+
 	const auto RespawnComponent = SSUtils::GetSSPlayerComponent<USSRespawnComponent>(Controller);
 	if(!RespawnComponent) return;
-
+	
 	RespawnComponent->Respawn(GameData.RespawnTime);
 }
 
