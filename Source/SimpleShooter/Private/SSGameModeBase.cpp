@@ -27,12 +27,14 @@ ASSGameModeBase::ASSGameModeBase()
 void ASSGameModeBase::StartPlay()
 {
 	Super::StartPlay();
-
+	
 	SpawnBots();
 	CreateTeamsInfo();
 
 	CurrentRound = 1;
 	StartGameRound();
+
+	SetMatchStateChange(ESSMatchState::InProgress);
 }
 
 UClass* ASSGameModeBase::GetDefaultPawnClassForController_Implementation(AController* InController)
@@ -82,6 +84,7 @@ void ASSGameModeBase::SpawnBots()
 		const auto SSAIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass, SpawnInfo);
 		RestartPlayer(SSAIController);
 	}
+	
 }
 
 void ASSGameModeBase::StartGameRound()
@@ -89,6 +92,8 @@ void ASSGameModeBase::StartGameRound()
 	RoundCountDown = GameData.RoundTime;
 	GetWorldTimerManager().SetTimer
 		(GameRoundTimerHandle, this, &ASSGameModeBase::GameTimerUpdate, 1.f, true);
+	
+	
 }
 
 void ASSGameModeBase::GameTimerUpdate()
@@ -115,7 +120,7 @@ void ASSGameModeBase::GameTimerUpdate()
 	}
 }
 
-void ASSGameModeBase::GameOver() const
+void ASSGameModeBase::GameOver()
 {
 	UE_LOG(LogSSGameModBase, Display, TEXT("=========GAME OVER========="))
 	LogPlayerInfo();
@@ -128,6 +133,8 @@ void ASSGameModeBase::GameOver() const
 			Pawn->DisableInput(nullptr);
 		}
 	}
+
+	SetMatchStateChange(ESSMatchState::GameOver);
 }
 
 void ASSGameModeBase::ResetPlayers()
@@ -219,6 +226,13 @@ void ASSGameModeBase::StartRespawn(AController* Controller) const
 	if(!RespawnComponent) return;
 	
 	RespawnComponent->Respawn(GameData.RespawnTime);
+}
+
+void ASSGameModeBase::SetMatchStateChange(const ESSMatchState State)
+{
+	if (MatchState == State) return;
+	MatchState = State;
+	OnMatchStateChanged.Broadcast(MatchState);
 }
 
 void ASSGameModeBase::RespawnRequest(AController* Controller)

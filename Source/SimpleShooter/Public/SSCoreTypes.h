@@ -51,6 +51,7 @@ struct FWeaponUIData
 // SSHealthComponent
 DECLARE_MULTICAST_DELEGATE(FOnDeath);
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, float);
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, float);
 
 //VFX
 
@@ -112,3 +113,13 @@ struct FGameData
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game", meta = (ClampMin = "1", ClampMax = "20"))
 	int32 RespawnTime = 3;// in seconds
 };
+
+UENUM(BlueprintType)
+enum class ESSMatchState : uint8
+{
+	WaitingToStart,
+	InProgress,
+	Pause,
+	GameOver
+};
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnMatchStateChangedSignature, ESSMatchState);

@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "SSGameHUD.generated.h"
 
+enum class ESSMatchState : uint8;
 /**
  * 
  */
@@ -25,4 +26,5 @@ protected:
 	
 private:
 	void DrawCrossHair();
+	void OnMatchStateChange(ESSMatchState State);
 };

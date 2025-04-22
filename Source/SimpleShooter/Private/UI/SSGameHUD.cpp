@@ -3,6 +3,7 @@
 
 #include "UI/SSGameHUD.h"
 
+#include "SSGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/Canvas.h"
 
@@ -22,6 +23,12 @@ void AMyHUD::BeginPlay()
 	{
 		PlayerHUDWidget->AddToViewport();
 	}
+
+	if(!GetWorld()) return;
+	const auto GameMod =  Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
+	if(!GameMod) return;
+	
+	GameMod->OnMatchStateChanged.AddUObject(this, &AMyHUD::OnMatchStateChange);
 }
 
 void AMyHUD::DrawCrossHair()
@@ -40,4 +47,10 @@ void AMyHUD::DrawCrossHair()
 	DrawLine(Center.Min, Center.Max - HalfLineSize,
 		Center.Min, Center.Max + HalfLineSize,
 		LineColor, LineThickness);
+}
+
+void AMyHUD::OnMatchStateChange(const ESSMatchState State)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+		FString::Printf(TEXT("Hearing - %s"), *UEnum::GetValueAsString(State)));  //UEnum::GetValueAsString()
 }

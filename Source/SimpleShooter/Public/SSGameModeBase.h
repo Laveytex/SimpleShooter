@@ -21,6 +21,8 @@ public:
 
 	void Killed(const AController* KillerController, AController* VictimController) const;
 
+	FOnMatchStateChangedSignature OnMatchStateChanged;
+	
 	FGameData GetGameDate() const { return GameData; }
 	int32 GetCurrentRoundNum() const { return CurrentRound; }
 	int32 GetRoundSecondsRemaining() const { return RoundCountDown; }
@@ -38,6 +40,7 @@ protected:
 	FGameData GameData;
 
 private:
+	ESSMatchState MatchState = ESSMatchState::WaitingToStart;
 	int32 CurrentRound = 1;
 	int32 RoundCountDown = 0;
 	FTimerHandle GameRoundTimerHandle;
@@ -45,7 +48,7 @@ private:
 	void SpawnBots();
 	void StartGameRound();
 	void GameTimerUpdate();
-	void GameOver() const;
+	void GameOver();
 
 	void ResetPlayers();
 	void ResetOnePlayers(AController* Controller);
@@ -57,4 +60,6 @@ private:
 	void LogPlayerInfo() const;
 
 	void StartRespawn(AController* Controller) const;
+
+	void SetMatchStateChange(ESSMatchState State);
 };
