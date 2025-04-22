@@ -29,6 +29,9 @@ void ASSBaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	check(HealthComponent);
+	check(WeaponComponent);
+
 	OnHealthChanged(HealthComponent->GetHealth(), 0.0f);
 	HealthComponent->OnDeath.AddUObject(this, &ASSBaseCharacter::OnDeath);
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASSBaseCharacter::OnHealthChanged);
