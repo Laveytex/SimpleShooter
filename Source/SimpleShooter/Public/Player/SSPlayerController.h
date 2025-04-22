@@ -21,4 +21,6 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USSRespawnComponent* SSRespawnComponent;
+
+	virtual void OnPossess(APawn* InPawn) override;
 };

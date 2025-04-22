@@ -41,10 +41,11 @@ private:
 	int32 CurrentRound = 1;
 	int32 RoundCountDown = 0;
 	FTimerHandle GameRoundTimerHandle;
-	
+
 	void SpawnBots();
 	void StartGameRound();
 	void GameTimerUpdate();
+	void GameOver() const;
 
 	void ResetPlayers();
 	void ResetOnePlayers(AController* Controller);

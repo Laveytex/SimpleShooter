@@ -7,6 +7,16 @@
 #include "Components/SSHealthComponent.h"
 #include "Components/SSWeaponComponent.h"
 
+bool USSPlayerHUDWidget::Initialize()
+{
+	if (GetOwningPlayer())
+	{
+		GetOwningPlayer()->GetOnNewPawnNotifier().AddUObject(this, &USSPlayerHUDWidget::OnNewPawn);
+		OnNewPawn(GetOwningPlayerPawn());
+	}
+	return Super::Initialize();
+}
+
 float USSPlayerHUDWidget::GetHealthPercent() const
 {
 	const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(GetOwningPlayerPawn());
@@ -43,21 +53,22 @@ bool USSPlayerHUDWidget::IsPlayerSpectating() const
 	return Controller && Controller->GetStateName() == NAME_Spectating;
 }
 
-bool USSPlayerHUDWidget::Initialize()
-{
-	const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(GetOwningPlayerPawn());
-	if (HealthComponent)
-	{
-		HealthComponent->OnHealthChanged.AddUObject(this, &USSPlayerHUDWidget::OnHealthChanged);
-	}
-	return Super::Initialize();
-}
+
 
 void USSPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 {
 	if (HealthDelta < 0.0f)
 	{
 		OnTakeDamage();
+	}
+}
+
+void USSPlayerHUDWidget::OnNewPawn(APawn* Pawn)
+{
+	const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(Pawn);
+	if (HealthComponent && !HealthComponent->OnHealthChanged.IsBoundToObject(this))
+	{
+		HealthComponent->OnHealthChanged.AddUObject(this, &USSPlayerHUDWidget::OnHealthChanged);
 	}
 }
 

@@ -4,6 +4,7 @@
 #include "SSGameModeBase.h"
 
 #include "AIController.h"
+#include "EngineUtils.h"
 #include "SSUtils.h"
 #include "Components/SSRespawnComponent.h"
 #include "Player/SSBaseCharacter.h"
@@ -109,8 +110,22 @@ void ASSGameModeBase::GameTimerUpdate()
 		}
 		else
 		{
-			UE_LOG(LogSSGameModBase, Display, TEXT("=========GAME OVER========="))
-			LogPlayerInfo();
+			GameOver();
+		}
+	}
+}
+
+void ASSGameModeBase::GameOver() const
+{
+	UE_LOG(LogSSGameModBase, Display, TEXT("=========GAME OVER========="))
+	LogPlayerInfo();
+
+	for (const auto Pawn : TActorRange<APawn>(GetWorld()))
+	{
+		if (Pawn)
+		{
+			Pawn->TurnOff();
+			Pawn->DisableInput(nullptr);
 		}
 	}
 }
