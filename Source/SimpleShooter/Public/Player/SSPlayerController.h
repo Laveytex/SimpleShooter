@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "SSPlayerController.generated.h"
 
+enum class ESSMatchState : uint8;
 class USSRespawnComponent;
 /**
  * 
@@ -17,15 +18,16 @@ class SIMPLESHOOTER_API ASSPlayerController : public APlayerController
 
 public:
 	ASSPlayerController();
-	
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USSRespawnComponent* SSRespawnComponent;
 
 	virtual void OnPossess(APawn* InPawn) override;
-
+	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 private:
 	void OnPauseGame();
+	void OnMatchStateChange(ESSMatchState State);
 };

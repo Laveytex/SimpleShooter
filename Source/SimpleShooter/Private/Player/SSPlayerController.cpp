@@ -2,6 +2,8 @@
 
 
 #include "Player/SSPlayerController.h"
+
+#include "SSGameModeBase.h"
 #include "Components/SSRespawnComponent.h"
 #include "GameFramework/GameModeBase.h"
 
@@ -17,6 +19,18 @@ void ASSPlayerController::OnPossess(APawn* InPawn)
 	OnNewPawn.Broadcast(InPawn);
 }
 
+void ASSPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(GetWorld())
+	{
+		const auto GameMod =  Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
+		if(!GameMod) return;
+		GameMod->OnMatchStateChanged.AddUObject(this, &ASSPlayerController::OnMatchStateChange);
+	}
+}
+
 void ASSPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -30,4 +44,18 @@ void ASSPlayerController::OnPauseGame()
 	if(!GetWorld() || !GetWorld()->GetAuthGameMode()) return;
 
 	GetWorld()->GetAuthGameMode()->SetPause(this);
+}
+
+void ASSPlayerController::OnMatchStateChange(ESSMatchState State)
+{
+	if (State == ESSMatchState::InProgress)
+	{
+		SetInputMode(FInputModeGameOnly());
+		bShowMouseCursor = false;
+	}
+	else
+	{
+		SetInputMode(FInputModeUIOnly());
+		bShowMouseCursor = true;
+	}
 }

@@ -22,9 +22,18 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	TSubclassOf<UUserWidget> PauseWidgetClass;
+
 	virtual void BeginPlay() override;
-	
+
 private:
+	UPROPERTY()
+	TMap<ESSMatchState, UUserWidget*> GameWidgets;
+
+	UPROPERTY()
+	UUserWidget* CurrentGameWidget = nullptr;
+
 	void DrawCrossHair();
 	void OnMatchStateChange(ESSMatchState State);
 };

@@ -56,6 +56,19 @@ bool ASSGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDele
 	return PauseSet;
 }
 
+bool ASSGameModeBase::ClearPause()
+{
+	const auto PauseClearSet = Super::ClearPause();
+	
+	if (PauseClearSet)
+	{
+		SetMatchStateChange(ESSMatchState::InProgress);
+	}
+
+	return PauseClearSet;
+	
+}
+
 void ASSGameModeBase::Killed(const AController* KillerController, AController* VictimController) const
 {
 	const auto KillerPlayerState = KillerController ? Cast<ASSPlayerState>(KillerController->PlayerState) : nullptr;

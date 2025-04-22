@@ -17,18 +17,26 @@ void AMyHUD::DrawHUD()
 void AMyHUD::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	const auto PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
-	if (PlayerHUDWidget)
-	{
-		PlayerHUDWidget->AddToViewport();
-	}
 
-	if(!GetWorld()) return;
-	const auto GameMod =  Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
-	if(!GameMod) return;
+	GameWidgets.Add(ESSMatchState::InProgress,
+		CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass));
+	GameWidgets.Add(ESSMatchState::Pause,
+		CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
+
+	for (const auto GameWidgetPair : GameWidgets)
+	{
+		const auto GameWidget  = GameWidgetPair.Value;
+		if (!GameWidget) continue;
+		GameWidget->AddToViewport();
+		GameWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
 	
-	GameMod->OnMatchStateChanged.AddUObject(this, &AMyHUD::OnMatchStateChange);
+	if(GetWorld())
+	{
+		const auto GameMod =  Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
+		if(!GameMod) return;
+		GameMod->OnMatchStateChanged.AddUObject(this, &AMyHUD::OnMatchStateChange);
+	}
 }
 
 void AMyHUD::DrawCrossHair()
@@ -51,6 +59,16 @@ void AMyHUD::DrawCrossHair()
 
 void AMyHUD::OnMatchStateChange(const ESSMatchState State)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-		FString::Printf(TEXT("Hearing - %s"), *UEnum::GetValueAsString(State)));  //UEnum::GetValueAsString()
+	if (CurrentGameWidget)
+	{
+		CurrentGameWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+	if (GameWidgets.Contains(State))
+	{
+		CurrentGameWidget = GameWidgets[State];
+	}
+	if (CurrentGameWidget)
+	{
+		CurrentGameWidget->SetVisibility(ESlateVisibility::Visible);
+	}
 }
