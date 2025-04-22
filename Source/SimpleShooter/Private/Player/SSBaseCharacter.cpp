@@ -19,20 +19,7 @@ ASSBaseCharacter::ASSBaseCharacter(const FObjectInitializer& ObjInit)
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
-	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->SocketOffset = FVector(0.0f, 100.0f,80.0f);
-
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
-	CameraComponent->SetupAttachment(SpringArm);
-	CameraComponent->bUsePawnControlRotation = false;
-
 	HealthComponent = CreateDefaultSubobject<USSHealthComponent>("HealthComponent");
-
-	HealtnTextComponent = CreateDefaultSubobject<UTextRenderComponent>("HealthTextComponent");
-	HealtnTextComponent->SetupAttachment(RootComponent);
-	HealtnTextComponent->SetOwnerNoSee(true);
 
 	WeaponComponent = CreateDefaultSubobject<USSWeaponComponent>("WeaponComponent");
 }
@@ -47,40 +34,11 @@ void ASSBaseCharacter::BeginPlay()
 	HealthComponent->OnHealthChanged.AddUObject(this, &ASSBaseCharacter::OnHealthChanged);
 
 	LandedDelegate.AddDynamic(this, &ASSBaseCharacter::OnGroundLanded);
-
-	
-}
-
-// Called every frame
-void ASSBaseCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	/*//const auto Health = HealthComponent->GetHealth();
-	//TakeDamage(0.1f, FDamageEvent{}, Controller, this);*/
-}
-
-// Called to bind functionality to input
-void ASSBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis("MoveForward", this, &ASSBaseCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &ASSBaseCharacter::MoveRight);
-	PlayerInputComponent->BindAxis("LookUp", this, &ASSBaseCharacter::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("TurnAround", this, &ASSBaseCharacter::AddControllerYawInput);
-
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASSBaseCharacter::Jump);
-	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASSBaseCharacter::OnStartRuning);
-	PlayerInputComponent->BindAction("Run", IE_Released, this, &ASSBaseCharacter::OnEndRuning);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USSWeaponComponent::StartFire);
-	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USSWeaponComponent::StopFire);
-	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USSWeaponComponent::NextWeapon);
-	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &USSWeaponComponent::Reload);
 }
 
 bool ASSBaseCharacter::IsRunning() const
 {
-	return IsMovingForwad && IsRun && !GetVelocity().IsZero();
+	return false;
 }
 
 float ASSBaseCharacter::GetMovementDirection() const
@@ -102,42 +60,12 @@ void ASSBaseCharacter::SetPlayerColor(const FLinearColor& Color) const
 	MaterialInst->SetVectorParameterValue(MaterialColorName, Color);
 }
 
-void ASSBaseCharacter::MoveForward(float Amount)
-{
-	IsMovingForwad = Amount > 0.0f;
-	if (Amount == 0.0f) return;
-	AddMovementInput(GetActorForwardVector(), Amount);
-}
-
-void ASSBaseCharacter::MoveRight(float Amount)
-{
-	if (Amount == 0.0f) return;
-	AddMovementInput(GetActorRightVector(), Amount);
-}
-
-void ASSBaseCharacter::OnStartRuning()
-{
-	IsRun = true;
-}
-
-void ASSBaseCharacter::OnEndRuning()
-{
-	IsRun = false;
-}
-
 void ASSBaseCharacter::OnDeath()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("You Dead"));
-
 	//PlayAnimMontage(DeathAnimMontage);
 	GetCharacterMovement()->DisableMovement();
 	SetLifeSpan(5.0f);
-
-	if (Controller)
-	{
-		Controller->ChangeState(NAME_Spectating);
-	}
-
+	
 	GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	WeaponComponent->StopFire();
 
@@ -147,7 +75,7 @@ void ASSBaseCharacter::OnDeath()
 
 void ASSBaseCharacter::OnHealthChanged(const float Health,  float HealthDelta) const
 {
-	HealtnTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
+	
 }
 
 void ASSBaseCharacter::OnGroundLanded(const FHitResult& HitResult)
