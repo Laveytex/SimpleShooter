@@ -23,4 +23,9 @@ protected:
 	USSRespawnComponent* SSRespawnComponent;
 
 	virtual void OnPossess(APawn* InPawn) override;
+
+	virtual void SetupInputComponent() override;
+
+private:
+	void OnPauseGame();
 };

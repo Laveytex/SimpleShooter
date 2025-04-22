@@ -46,6 +46,16 @@ UClass* ASSGameModeBase::GetDefaultPawnClassForController_Implementation(AContro
 	return Super::GetDefaultPawnClassForController_Implementation(InController);
 }
 
+bool ASSGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate)
+{
+	const auto PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
+	if (PauseSet)
+	{
+		SetMatchStateChange(ESSMatchState::Pause);
+	}
+	return PauseSet;
+}
+
 void ASSGameModeBase::Killed(const AController* KillerController, AController* VictimController) const
 {
 	const auto KillerPlayerState = KillerController ? Cast<ASSPlayerState>(KillerController->PlayerState) : nullptr;
