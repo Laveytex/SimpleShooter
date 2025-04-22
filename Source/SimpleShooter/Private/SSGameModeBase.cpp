@@ -48,20 +48,25 @@ void ASSGameModeBase::Killed(const AController* KillerController, AController* V
 	const auto KillerPlayerState = KillerController ? Cast<ASSPlayerState>(KillerController->PlayerState) : nullptr;
 	const auto VictimPlayerState = VictimController ? Cast<ASSPlayerState>(VictimController->PlayerState) : nullptr;
 
-	if (KillerPlayerState->GetTeamID() != VictimPlayerState->GetTeamID())
+	if (KillerPlayerState && VictimPlayerState)
 	{
-		if (KillerController)
+		const bool bIsFriendlyFire = KillerPlayerState->GetTeamID() == VictimPlayerState->GetTeamID();
+
+		if (!bIsFriendlyFire)
 		{
 			KillerPlayerState->AddKill();
 		}
 	}
 	
-	if (VictimController)
+	if (VictimPlayerState)
 	{
 		VictimPlayerState->AddDeath();
 	}
 
-	StartRespawn(VictimController);
+	if (VictimController)
+	{
+		StartRespawn(VictimController);
+	}
 }
 
 void ASSGameModeBase::SpawnBots()

@@ -18,6 +18,9 @@ public:
 
 	void Respawn(int32 RespawnTime);
 
+	int32 GetRespawnCountDown() const { return RespawnTimeCountDown; }
+	bool IsRespawnInProgress() const;
+
 private:
 	FTimerHandle RespawnTimerHandle;
 	int32 RespawnTimeCountDown = 0;

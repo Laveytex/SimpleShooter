@@ -19,6 +19,11 @@ void USSRespawnComponent::Respawn(const int32 RespawnTime)
 	GetWorld()->GetTimerManager().SetTimer(RespawnTimerHandle, this, &USSRespawnComponent::UpdateRespawnTime, 1.f, true);
 }
 
+bool USSRespawnComponent::IsRespawnInProgress() const
+{
+	return GetWorld() && GetWorld()->GetTimerManager().IsTimerActive(RespawnTimerHandle);
+}
+
 void USSRespawnComponent::UpdateRespawnTime()
 {
 	
