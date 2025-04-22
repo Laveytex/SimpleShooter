@@ -90,9 +90,9 @@ void ASSPlayerCharacter::CheckCameraOverlap() const
 	TArray<USceneComponent*> AttachedChildren;
 	GetMesh()->GetChildrenComponents(true, AttachedChildren);
 
-	for (const auto MeshChield : AttachedChildren)
+	for (const auto MeshChild : AttachedChildren)
 	{
-		auto MeshChildrenGeometry =   Cast<UPrimitiveComponent>(MeshChield);
+		auto MeshChildrenGeometry =   Cast<UPrimitiveComponent>(MeshChild);
 		if (MeshChildrenGeometry)
 		{
 			MeshChildrenGeometry->SetOwnerNoSee(HideMesh);
