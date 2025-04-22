@@ -59,7 +59,8 @@ private:
 	float HealTime = HealthDelay;
 	
 	UFUNCTION()
-	void OnTakeAnyDamage (AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+	void OnTakeAnyDamage (AActor* DamagedActor, float Damage, const UDamageType* DamageType,
+		AController* InstigatedBy, AActor* DamageCauser);
 
 	FTimerHandle HealTimerHandle;
 
@@ -69,4 +70,6 @@ private:
 	void PlayCameraShake() const;
 
 	void Killed(const AController* KillerController) const;
+
+	void ReportDamageEvent(float Damage, const AController* InstigatedController) const;
 };

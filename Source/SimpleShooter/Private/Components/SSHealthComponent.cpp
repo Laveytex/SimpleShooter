@@ -5,6 +5,7 @@
 
 
 #include "SSGameModeBase.h"
+#include "Perception/AISense_Damage.h"
 #include "Player/SSBaseCharacter.h"
 
 // Sets default values for this component's properties
@@ -27,11 +28,13 @@ void USSHealthComponent::BeginPlay()
 	}
 }
 
-void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
+void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 	AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (Damage <= 0.0f || IsDead() || !GetWorld()) return;
-	HealTime = HealthDelay;
+
+	// ?
+	//HealTime = HealthDelay;
 	
 	SetHealth(Health - Damage);
 
@@ -44,13 +47,14 @@ void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, con
 	{
 		Killed(InstigatedBy);
 		OnDeath.Broadcast();
-	}
-	else if (AutoHeal && GetWorld())
+	}	
+	else if (AutoHeal)
 	{
 		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this,  &USSHealthComponent::HealUpdate, HealUpdateTime, true, HealthDelay);
 	}
 
 	PlayCameraShake();
+	ReportDamageEvent(Damage, InstigatedBy);
 }
 
 void USSHealthComponent::HealUpdate()
@@ -91,6 +95,18 @@ void USSHealthComponent::Killed(const AController* KillerController) const
 	const auto VictimController = Player ? Player->Controller : nullptr;
 
 	GameMode->Killed(KillerController, VictimController);
+}
+
+void USSHealthComponent::ReportDamageEvent(const float Damage, const AController* InstigatedController) const
+{
+	if (!GetWorld() || !GetOwner() || !InstigatedController || !InstigatedController->GetPawn()) return;
+
+	UAISense_Damage::ReportDamageEvent(GetWorld(),
+		GetOwner(),
+		InstigatedController->GetPawn(),
+		Damage,
+		InstigatedController->GetPawn()->GetActorLocation(),
+		GetOwner()->GetActorLocation());
 }
 
 bool USSHealthComponent::IsHealthFull() const
