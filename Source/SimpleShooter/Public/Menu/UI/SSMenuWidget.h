@@ -6,6 +6,10 @@
 #include "Blueprint/UserWidget.h"
 #include "SSMenuWidget.generated.h"
 
+class USSGameInstance;
+struct FLevelData;
+class USSLevelItemWidget;
+class UHorizontalBox;
 class UButton;
 /**
  * 
@@ -21,12 +25,26 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* QuitGameButton;
+
+	UPROPERTY(meta = (BindWidget))
+	UHorizontalBox* LevelItemsBox;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+	TSubclassOf<UUserWidget> LevelItemWidgetClass;
 	
 	virtual void NativeOnInitialized() override;
 private:
+	UPROPERTY()
+	TArray<USSLevelItemWidget*> LevelItemsWidgets;
+	
 	UFUNCTION()
 	void OnStartGame();
 
 	UFUNCTION()
 	void OnQuitGame();
+
+	void InitLevelItems();
+	void OnLevelSelected(const FLevelData& Data);
+
+	USSGameInstance* GetSSGameInstance();
 };

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SSCoreTypes.h"
 #include "Engine/GameInstance.h"
 #include "SSGameInstance.generated.h"
 
@@ -15,14 +16,19 @@ class SIMPLESHOOTER_API USSGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	FName GetStartupLevelName() const { return StartupLevenName ;}
+	FLevelData GetStartupLevel() const { return StartupLevel ;}
+	void  SetStartupLevel(const FLevelData& LevelData) { StartupLevel = LevelData ;}
+
+	TArray<FLevelData> GetLevelsData() const {return LevelsData; }
 	FName GetMenuLevelName() const { return MenuLevelName ;}
-	
-	
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Game")
-	FName StartupLevenName = NAME_None;
-
+	TArray<FLevelData> LevelsData;
 	UPROPERTY(EditAnywhere, Category = "Game")
 	FName MenuLevelName = NAME_None;
+
+private:
+	FLevelData StartupLevel;
+
 };

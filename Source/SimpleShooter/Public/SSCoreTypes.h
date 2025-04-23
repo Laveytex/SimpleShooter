@@ -123,3 +123,20 @@ enum class ESSMatchState : uint8
 	GameOver
 };
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnMatchStateChangedSignature, ESSMatchState);
+
+USTRUCT(BlueprintType)
+struct FLevelData
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game")
+	FName LevelName = NAME_None;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game")
+	FName LevelDisplayName = NAME_None;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Game")
+	UTexture2D* LevelIcon;
+};
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnLevelSelectionSignature, const FLevelData&);

@@ -24,7 +24,7 @@ void USSGoToMenuWidget::OnGoToMenu()
 	const auto GameInstance = GetWorld()->GetGameInstance<USSGameInstance>();
 	if (!GameInstance) return;
 
-	if (GameInstance->GetStartupLevelName().IsNone()) return;
+	if (GameInstance->GetMenuLevelName().IsNone()) return;
 	
 	UGameplayStatics::OpenLevel(this, GameInstance->GetMenuLevelName());
 }
