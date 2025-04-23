@@ -16,9 +16,13 @@ class SIMPLESHOOTER_API USSGameInstance : public UGameInstance
 
 public:
 	FName GetStartupLevelName() const { return StartupLevenName ;}
+	FName GetMenuLevelName() const { return MenuLevelName ;}
+	
 	
 protected:
 	UPROPERTY(EditAnywhere, Category = "Game")
 	FName StartupLevenName = NAME_None;
-	
+
+	UPROPERTY(EditAnywhere, Category = "Game")
+	FName MenuLevelName = NAME_None;
 };
