@@ -15,6 +15,10 @@ void USSMenuWidget::NativeOnInitialized()
 	{
 		StartGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnStartGame);		
 	}
+	if (QuitGameButton)
+	{
+		QuitGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnQuitGame);		
+	}
 }
 
 void USSMenuWidget::OnStartGame()
@@ -28,4 +32,10 @@ void USSMenuWidget::OnStartGame()
 
 	const FName StartupLevelName = "Level_Test";
 	UGameplayStatics::OpenLevel(this, GameInstance->GetStartupLevelName());
+}
+
+void USSMenuWidget::OnQuitGame()
+{
+	if(!GetWorld()) return;
+	UKismetSystemLibrary::QuitGame(this, GetOwningPlayer(), EQuitPreference::Quit, true);
 }
