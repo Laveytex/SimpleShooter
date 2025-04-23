@@ -9,7 +9,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Menu/Level_Menu.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Menu/Level_Menu.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/SSMenuPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/SSMenuPlayerController.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameModeBase.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +34,7 @@
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/UI/SSMenuHUD.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/UI/SSMenuWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameInstance.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameDataWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameOverWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSPauseWidget.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -47,6 +50,7 @@
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Menu/UI/SSMenuWidget.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerState.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/SSGameInstance.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSGameDataWidget.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSGameOverWidget.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSPlayerStatRowSWidget.h" root0="FORCE_HIGHLIGHTING" />
@@ -189,7 +193,7 @@
       <workItem from="1745409024234" duration="4000" />
       <workItem from="1745409071587" duration="1774000" />
       <workItem from="1745411024417" duration="1675000" />
-      <workItem from="1745412790186" duration="4253000" />
+      <workItem from="1745412790186" duration="4872000" />
     </task>
     <servers />
   </component>
