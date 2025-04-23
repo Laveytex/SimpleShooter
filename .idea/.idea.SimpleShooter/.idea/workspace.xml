@@ -9,14 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/WBP_GameOver.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/WBP_GameOver.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/UI/WBP_GamePause.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/UI/WBP_GamePause.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameOverWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameOverWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSPauseWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSPauseWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSPlayerHUDWidget.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSPlayerHUDWidget.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSGameOverWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSGameOverWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSPauseWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSPauseWidget.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSPlayerHUDWidget.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSPlayerHUDWidget.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +27,10 @@
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/AI/Decorators/SSHealthPercentDecorator.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/AI/EQS/EnvQueryTest_PickupCouldBeTaken.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Components/SSRespawnComponent.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/SSMenuGameModeBase.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/SSMenuPlayerController.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/UI/SSMenuHUD.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Menu/UI/SSMenuWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerCharacter.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameDataWidget.cpp" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Private/UI/SSGameOverWidget.cpp" root0="FORCE_HIGHLIGHTING" />
@@ -44,6 +41,10 @@
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/AI/Decorators/SSHealthPercentDecorator.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/AI/EQS/EnvQueryTest_PickupCouldBeTaken.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Components/SSRespawnComponent.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Menu/SSMenuGameModeBase.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Menu/SSMenuPlayerController.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Menu/UI/SSMenuHUD.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Menu/UI/SSMenuWidget.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerCharacter.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerState.h" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Source/SimpleShooter/Public/UI/SSGameDataWidget.h" root0="FORCE_HIGHLIGHTING" />
@@ -188,7 +189,7 @@
       <workItem from="1745409024234" duration="4000" />
       <workItem from="1745409071587" duration="1774000" />
       <workItem from="1745411024417" duration="1675000" />
-      <workItem from="1745412790186" duration="2174000" />
+      <workItem from="1745412790186" duration="4253000" />
     </task>
     <servers />
   </component>
