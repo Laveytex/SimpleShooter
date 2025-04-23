@@ -3,6 +3,7 @@
 
 #include "Menu/UI/SSMenuWidget.h"
 
+#include "SSGameInstance.h"
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -18,6 +19,13 @@ void USSMenuWidget::NativeOnInitialized()
 
 void USSMenuWidget::OnStartGame()
 {
+	if(!GetWorld()) return;
+
+	const auto GameInstance = GetWorld()->GetGameInstance<USSGameInstance>();
+	if (!GameInstance) return;
+
+	if (GameInstance->GetStartupLevelName().IsNone()) return;
+
 	const FName StartupLevelName = "Level_Test";
-	UGameplayStatics::OpenLevel(this, StartupLevelName);
+	UGameplayStatics::OpenLevel(this, GameInstance->GetStartupLevelName());
 }

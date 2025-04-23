@@ -13,7 +13,12 @@ UCLASS()
 class SIMPLESHOOTER_API USSGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
-	
+
 public:
-	FString TestString = "Hello";
+	FName GetStartupLevelName() const { return StartupLevenName ;}
+	
+protected:
+	UPROPERTY(EditAnywhere, Category = "Game")
+	FName StartupLevenName = NAME_None;
+	
 };
