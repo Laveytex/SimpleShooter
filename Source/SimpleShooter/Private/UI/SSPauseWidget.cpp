@@ -6,16 +6,14 @@
 #include "Components/Button.h"
 #include "GameFramework/GameModeBase.h"
 
-bool USSPauseWidget::Initialize()
+void USSPauseWidget::NativeOnInitialized()
 {
-	const auto InitStatus = Super::Initialize();
+	Super::NativeOnInitialized();
 
 	if (ClearPauseButton)
 	{
 		ClearPauseButton->OnClicked.AddDynamic(this, &USSPauseWidget::OnClearPause);
 	}
-
-	return InitStatus;
 }
 
 void USSPauseWidget::OnClearPause()

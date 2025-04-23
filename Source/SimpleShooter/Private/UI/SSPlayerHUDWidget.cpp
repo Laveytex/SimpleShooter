@@ -7,14 +7,13 @@
 #include "Components/SSHealthComponent.h"
 #include "Components/SSWeaponComponent.h"
 
-bool USSPlayerHUDWidget::Initialize()
+void USSPlayerHUDWidget::NativeOnInitialized()
 {
 	if (GetOwningPlayer())
 	{
 		GetOwningPlayer()->GetOnNewPawnNotifier().AddUObject(this, &USSPlayerHUDWidget::OnNewPawn);
 		OnNewPawn(GetOwningPlayerPawn());
 	}
-	return Super::Initialize();
 }
 
 float USSPlayerHUDWidget::GetHealthPercent() const

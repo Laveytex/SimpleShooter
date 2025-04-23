@@ -5,12 +5,16 @@
 
 #include "SSGameModeBase.h"
 #include "SSUtils.h"
+#include "Components/Button.h"
 #include "Components/VerticalBox.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/SSPlayerState.h"
 #include "UI/SSPlayerStatRowSWidget.h"
 
-bool USSGameOverWidget::Initialize()
+void USSGameOverWidget::NativeOnInitialized()
 {
+	Super::NativeOnInitialized();
+	
 	if (GetWorld())
 	{
 		const auto GameMod = Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
@@ -20,7 +24,10 @@ bool USSGameOverWidget::Initialize()
 		}
 	}
 
-	return Super::Initialize();
+	if (ResetLevelButton)
+	{
+		ResetLevelButton->OnClicked.AddDynamic(this, &USSGameOverWidget::OnResetLevel);
+	}
 }
 
 void USSGameOverWidget::OnMatchStateChange(const ESSMatchState State)
@@ -58,4 +65,11 @@ void USSGameOverWidget::UpdatePlayerStat() const
 
 		PlayerStatBox->AddChild(PlayerStatWidget);
 	}
+}
+
+void USSGameOverWidget::OnResetLevel()
+{
+	//const FName CurrentLevelName = "Level_Test";
+	const FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(this);
+	UGameplayStatics::OpenLevel(this, FName(CurrentLevelName));
 }

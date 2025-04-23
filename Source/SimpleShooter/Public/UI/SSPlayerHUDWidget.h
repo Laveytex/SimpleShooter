@@ -16,6 +16,8 @@ class SIMPLESHOOTER_API USSPlayerHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeOnInitialized() override;
+	
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	float GetHealthPercent() const;
 
@@ -30,9 +32,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	bool IsPlayerSpectating() const;
-
-	virtual bool Initialize() override;
-
+	
 	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
 	void OnTakeDamage();
 
