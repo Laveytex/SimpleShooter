@@ -18,24 +18,28 @@ void AMyHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameWidgets.Add(ESSMatchState::InProgress,
-		CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass));
-	GameWidgets.Add(ESSMatchState::Pause,
-		CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
+	GameWidgets.Add
+		(ESSMatchState::InProgress, CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass));
+	GameWidgets.Add
+		(ESSMatchState::Pause, CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
+	GameWidgets.Add
+		(ESSMatchState::GameOver, CreateWidget<UUserWidget>(GetWorld(), GameOverWidgetClass));
 
 	for (const auto GameWidgetPair : GameWidgets)
 	{
-		const auto GameWidget  = GameWidgetPair.Value;
+		const auto GameWidget = GameWidgetPair.Value;
 		if (!GameWidget) continue;
 		GameWidget->AddToViewport();
 		GameWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
-	
-	if(GetWorld())
+
+	if (GetWorld())
 	{
-		const auto GameMod =  Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
-		if(!GameMod) return;
-		GameMod->OnMatchStateChanged.AddUObject(this, &AMyHUD::OnMatchStateChange);
+		const auto GameMod = Cast<ASSGameModeBase>(GetWorld()->GetAuthGameMode());
+		if (GameMod)
+		{
+			GameMod->OnMatchStateChanged.AddUObject(this, &AMyHUD::OnMatchStateChange);
+		}
 	}
 }
 
@@ -48,13 +52,13 @@ void AMyHUD::DrawCrossHair()
 	constexpr float HalfLineSize = 10.0f;
 	constexpr float LineThickness = 2.0f;
 	const FLinearColor LineColor = FLinearColor::Green;
- 	
+
 	DrawLine(Center.Min - HalfLineSize, Center.Max,
-		Center.Min + HalfLineSize, Center.Max,
-		LineColor, LineThickness);
+	         Center.Min + HalfLineSize, Center.Max,
+	         LineColor, LineThickness);
 	DrawLine(Center.Min, Center.Max - HalfLineSize,
-		Center.Min, Center.Max + HalfLineSize,
-		LineColor, LineThickness);
+	         Center.Min, Center.Max + HalfLineSize,
+	         LineColor, LineThickness);
 }
 
 void AMyHUD::OnMatchStateChange(const ESSMatchState State)

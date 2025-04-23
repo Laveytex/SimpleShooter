@@ -123,6 +123,7 @@ void ASSGameModeBase::GameTimerUpdate()
 {
 	UE_LOG(LogSSGameModBase, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum)
 
+	//вариант работы таймера
 	/*const auto TimeRate = GetWorldTimerManager().GetTimerRate(GameRoundTimerHandle);
 	RoundCountDown -= TimeRate;*/
 
@@ -196,6 +197,7 @@ void ASSGameModeBase::CreateTeamsInfo()
 
 		PlayerState->SetTeamID(TeamID);
 		PlayerState->SetTeamColor(DetermineColorByTeamID(TeamID));
+		PlayerState->SetPlayerName(Controller->IsPlayerController() ? "Player" : "Bot");
 		SetPlayerColor(Controller);
 		
 		TeamID = TeamID == 1 ? 2 : 1;
