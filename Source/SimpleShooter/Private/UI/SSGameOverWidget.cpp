@@ -9,7 +9,7 @@
 #include "Components/VerticalBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/SSPlayerState.h"
-#include "UI/SSPlayerStatRowSWidget.h"
+#include "UI/SSPlayerStatRowsWidget.h"
 
 void USSGameOverWidget::NativeOnInitialized()
 {
@@ -53,7 +53,7 @@ void USSGameOverWidget::UpdatePlayerStat() const
 		if (!PlayerStat) continue;
 
 		//const auto PlayerStatWidget = CreateWidget<USSPlayerStatRowSWidget>(PlayerStatRowWidgetClass);
-		const auto PlayerStatWidget = CreateWidget<USSPlayerStatRowSWidget>(GetWorld(), PlayerStatRowWidgetClass);
+		const auto PlayerStatWidget = CreateWidget<USSPlayerStatRowsWidget>(GetWorld(), PlayerStatRowWidgetClass);
 
 		if (!PlayerStatWidget) continue;
 
@@ -62,6 +62,7 @@ void USSGameOverWidget::UpdatePlayerStat() const
 		PlayerStatWidget->SetDeath(SSUtils::TextFromInt(PlayerStat->GetDeathsNum()));
 		PlayerStatWidget->SetTeam(SSUtils::TextFromInt(PlayerStat->GetTeamID()));
 		PlayerStatWidget->SetPlayerIndicatorVisibility(Controller->IsPlayerController());
+		PlayerStatWidget->SetTeamColor(PlayerStat->GetTeamColor());
 
 		PlayerStatBox->AddChild(PlayerStatWidget);
 	}
@@ -69,7 +70,6 @@ void USSGameOverWidget::UpdatePlayerStat() const
 
 void USSGameOverWidget::OnResetLevel()
 {
-	//const FName CurrentLevelName = "Level_Test";
 	const FString CurrentLevelName = UGameplayStatics::GetCurrentLevelName(this);
 	UGameplayStatics::OpenLevel(this, FName(CurrentLevelName));
 }

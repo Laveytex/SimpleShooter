@@ -4,6 +4,7 @@
 #include "UI/SSPlayerHUDWidget.h"
 
 #include "SSUtils.h"
+#include "Components/ProgressBar.h"
 #include "Components/SSHealthComponent.h"
 #include "Components/SSWeaponComponent.h"
 
@@ -19,7 +20,7 @@ void USSPlayerHUDWidget::NativeOnInitialized()
 float USSPlayerHUDWidget::GetHealthPercent() const
 {
 	const auto HealthComponent = SSUtils::GetSSPlayerComponent<USSHealthComponent>(GetOwningPlayerPawn());
-	if(!HealthComponent) return 0.0f;
+	if (!HealthComponent) return 0.0f;
 
 	return HealthComponent->GetHealthPercent();
 }
@@ -27,7 +28,7 @@ float USSPlayerHUDWidget::GetHealthPercent() const
 bool USSPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
 	const auto WeaponComponent = SSUtils::GetSSPlayerComponent<USSWeaponComponent>(GetOwningPlayerPawn());
-	if(!WeaponComponent) return false;
+	if (!WeaponComponent) return false;
 
 	return WeaponComponent->GetCurrentWeaponUIData(UIData);
 }
@@ -35,8 +36,8 @@ bool USSPlayerHUDWidget::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 bool USSPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
 {
 	const auto WeaponComponent = SSUtils::GetSSPlayerComponent<USSWeaponComponent>(GetOwningPlayerPawn());
-	if(!WeaponComponent) return false;
-	
+	if (!WeaponComponent) return false;
+
 	return WeaponComponent->GetCurrentWeaponAmmoData(AmmoData);
 }
 
@@ -52,6 +53,17 @@ bool USSPlayerHUDWidget::IsPlayerSpectating() const
 	return Controller && Controller->GetStateName() == NAME_Spectating;
 }
 
+int32 USSPlayerHUDWidget::GetKillsNum() const
+{
+	const auto PlayerState = GetSSPlayerState();
+	return PlayerState ? PlayerState->GetKillsNum() : 0;
+}
+
+int32 USSPlayerHUDWidget::GetDeathNum() const
+{
+	const auto PlayerState = GetSSPlayerState();
+	return PlayerState ? PlayerState->GetDeathsNum() : 0;
+}
 
 
 void USSPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
@@ -60,6 +72,7 @@ void USSPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 	{
 		OnTakeDamage();
 	}
+	UpdateHealthBar();
 }
 
 void USSPlayerHUDWidget::OnNewPawn(APawn* Pawn)
@@ -69,5 +82,18 @@ void USSPlayerHUDWidget::OnNewPawn(APawn* Pawn)
 	{
 		HealthComponent->OnHealthChanged.AddUObject(this, &USSPlayerHUDWidget::OnHealthChanged);
 	}
+	UpdateHealthBar();
 }
 
+ASSPlayerState* USSPlayerHUDWidget::GetSSPlayerState() const
+{
+	return GetOwningPlayer() ? Cast<ASSPlayerState>(GetOwningPlayer()->PlayerState) : nullptr;
+}
+
+void USSPlayerHUDWidget::UpdateHealthBar()
+{
+	if (HealthProgressBar)
+	{
+		HealthProgressBar->SetFillColorAndOpacity(GetHealthPercent() > PercentColorThreshold ? GoodColor : BadColor);
+	}
+}

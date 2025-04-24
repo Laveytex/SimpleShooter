@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "SSPlayerStatRowSWidget.generated.h"
+#include "SSPlayerStatRowsWidget.generated.h"
 
 class UImage;
 class UTextBlock;
@@ -12,7 +12,7 @@ class UTextBlock;
  * 
  */
 UCLASS()
-class SIMPLESHOOTER_API USSPlayerStatRowSWidget : public UUserWidget
+class SIMPLESHOOTER_API USSPlayerStatRowsWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -21,6 +21,7 @@ public:
 	void SetKills(const FText& Text) const;
 	void SetDeath(const FText& Text) const;
 	void SetTeam(const FText& Text) const;
+	void SetTeamColor(const FLinearColor& Color) const;
 	void SetPlayerIndicatorVisibility(const bool Visible) const;
 
 protected:
@@ -38,4 +39,7 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	UImage* PlayerIndicatorImage;
+
+	UPROPERTY(meta = (BindWidget))
+	UImage* TeamImage;
 };

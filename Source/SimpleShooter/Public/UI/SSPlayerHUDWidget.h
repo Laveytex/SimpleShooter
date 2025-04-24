@@ -9,6 +9,8 @@
 #include "SSPlayerHUDWidget.generated.h"
 
 
+class ASSPlayerState;
+class UProgressBar;
 
 UCLASS()
 class SIMPLESHOOTER_API USSPlayerHUDWidget : public UUserWidget
@@ -16,8 +18,6 @@ class SIMPLESHOOTER_API USSPlayerHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeOnInitialized() override;
-	
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	float GetHealthPercent() const;
 
@@ -36,7 +36,32 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
 	void OnTakeDamage();
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	int32 GetKillsNum() const;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	int32 GetDeathNum() const;
+	
+
+protected:
+	UPROPERTY(meta = (BindWidget))
+	UProgressBar* HealthProgressBar;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	float PercentColorThreshold = 0.3f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FLinearColor GoodColor = FLinearColor::Green;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
+	FLinearColor BadColor = FLinearColor::Red;
+	
+	virtual void NativeOnInitialized() override;
+	
 private:
 	void OnHealthChanged(float Health, float HealthDelta);
 	void OnNewPawn(APawn* Pawn);
+	ASSPlayerState* GetSSPlayerState() const;
+
+	void UpdateHealthBar();
 };

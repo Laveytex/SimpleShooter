@@ -6,18 +6,6 @@
 #include "SSGameModeBase.h"
 #include "Player/SSPlayerState.h"
 
-int32 USSGameDataWidget::GetKillsNum() const
-{
-	const auto PlayerState = GetSSPlayerState();
-	return PlayerState ? PlayerState->GetKillsNum() : 0;
-}
-
-int32 USSGameDataWidget::GetDeathNum() const
-{
-	const auto PlayerState = GetSSPlayerState();
-	return PlayerState ? PlayerState->GetDeathsNum() : 0;
-}
-
 int32 USSGameDataWidget::GetCurrentRoundNum() const
 {
 	const auto GameMod = GetSSGameMod();
