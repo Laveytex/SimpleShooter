@@ -46,5 +46,5 @@ private:
 	void InitLevelItems();
 	void OnLevelSelected(const FLevelData& Data);
 
-	USSGameInstance* GetSSGameInstance();
+	USSGameInstance* GetSSGameInstance() const;
 };

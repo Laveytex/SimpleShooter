@@ -41,8 +41,8 @@ protected:
 	FName MaterialColorName = "Paint Color";
 
 	virtual void OnDeath();
-
 	virtual void BeginPlay() override;
+	virtual  void OnHealthChanged(float Health, float HealthDelta) const;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
@@ -55,7 +55,7 @@ public:
 	void SetPlayerColor(const FLinearColor& Color) const;
 
 private:
-	void OnHealthChanged(float Health, float HealthDelta) const;
+	
 
 	UFUNCTION()
 	void OnGroundLanded(const FHitResult& HitResult);

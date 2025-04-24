@@ -15,11 +15,11 @@ void USSMenuWidget::NativeOnInitialized()
 
 	if (StartGameButton)
 	{
-		StartGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnStartGame);		
+		StartGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnStartGame);
 	}
 	if (QuitGameButton)
 	{
-		QuitGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnQuitGame);		
+		QuitGameButton->OnClicked.AddDynamic(this, &USSMenuWidget::OnQuitGame);
 	}
 
 	InitLevelItems();
@@ -27,18 +27,17 @@ void USSMenuWidget::NativeOnInitialized()
 
 void USSMenuWidget::OnStartGame()
 {
-	if(!GetWorld()) return;
+	if (!GetWorld()) return;
 
 	const auto GameInstance = GetSSGameInstance();
 	if (!GameInstance) return;
-
 
 	UGameplayStatics::OpenLevel(this, GameInstance->GetStartupLevel().LevelName);
 }
 
 void USSMenuWidget::OnQuitGame()
 {
-	if(!GetWorld()) return;
+	if (!GetWorld()) return;
 	UKismetSystemLibrary::QuitGame(this, GetOwningPlayer(), EQuitPreference::Quit, true);
 }
 
@@ -90,9 +89,9 @@ void USSMenuWidget::OnLevelSelected(const FLevelData& Data)
 	}
 }
 
-USSGameInstance* USSMenuWidget::GetSSGameInstance()
+USSGameInstance* USSMenuWidget::GetSSGameInstance() const
 {
 	if (!GetWorld()) return nullptr;
-	
+
 	return GetWorld()->GetGameInstance<USSGameInstance>();
 }
