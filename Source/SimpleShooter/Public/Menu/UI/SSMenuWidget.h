@@ -30,10 +30,15 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	UHorizontalBox* LevelItemsBox;
 
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	UWidgetAnimation* HideAnimation;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
 	TSubclassOf<UUserWidget> LevelItemWidgetClass;
 	
 	virtual void NativeOnInitialized() override;
+	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
+	
 private:
 	UPROPERTY()
 	TArray<USSLevelItemWidget*> LevelItemsWidgets;
