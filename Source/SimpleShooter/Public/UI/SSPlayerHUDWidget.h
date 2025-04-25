@@ -41,11 +41,16 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	int32 GetDeathNum() const;
-	
 
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	FString FormatBullets(int32 BulletsNum) const;
+	
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthProgressBar;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	UWidgetAnimation* DamageAnimation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	float PercentColorThreshold = 0.3f;

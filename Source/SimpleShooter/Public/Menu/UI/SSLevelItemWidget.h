@@ -46,4 +46,10 @@ private:
 
 	UFUNCTION()
 	void OnLevelSelectionButtonClicked();
+
+	UFUNCTION()
+	void OnLevelItemHovered();
+
+	UFUNCTION()
+	void OnLevelItemUnHovered();
 };

@@ -65,12 +65,32 @@ int32 USSPlayerHUDWidget::GetDeathNum() const
 	return PlayerState ? PlayerState->GetDeathsNum() : 0;
 }
 
+FString USSPlayerHUDWidget::FormatBullets(const int32 BulletsNum) const
+{
+	const int32 MaxLen = 3;
+	const TCHAR PrefixSymbol = '0';
+
+	auto BulletStr = FString::FromInt(BulletsNum);
+	const auto SymbolsNumToAdd = MaxLen - BulletStr.Len();
+
+	if (SymbolsNumToAdd > 0)
+	{
+		BulletStr = FString::ChrN(SymbolsNumToAdd, PrefixSymbol).Append(BulletStr);
+	}
+	return BulletStr;
+}
+
 
 void USSPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
 {
 	if (HealthDelta < 0.0f)
 	{
 		OnTakeDamage();
+
+		if (!IsAnimationPlaying(DamageAnimation))
+		{
+			PlayAnimation(DamageAnimation);
+		}
 	}
 	UpdateHealthBar();
 }
