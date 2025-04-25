@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "UI/SSBaseWidget.h"
 #include "SSMenuWidget.generated.h"
 
 class USSGameInstance;
@@ -15,7 +16,7 @@ class UButton;
  * 
  */
 UCLASS()
-class SIMPLESHOOTER_API USSMenuWidget : public UUserWidget
+class SIMPLESHOOTER_API USSMenuWidget : public USSBaseWidget
 {
 	GENERATED_BODY()
 	

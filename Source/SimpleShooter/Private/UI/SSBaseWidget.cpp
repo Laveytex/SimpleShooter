@@ -3,3 +3,7 @@
 
 #include "UI/SSBaseWidget.h"
 
+void USSBaseWidget::Show()
+{
+	PlayAnimation(ShowAnimation);
+}

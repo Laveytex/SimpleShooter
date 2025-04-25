@@ -6,6 +6,7 @@
 #include "SSGameModeBase.h"
 #include "Blueprint/UserWidget.h"
 #include "Engine/Canvas.h"
+#include "UI/SSBaseWidget.h"
 
 void AMyHUD::DrawHUD()
 {
@@ -19,11 +20,11 @@ void AMyHUD::BeginPlay()
 	Super::BeginPlay();
 
 	GameWidgets.Add
-		(ESSMatchState::InProgress, CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass));
+		(ESSMatchState::InProgress, CreateWidget<USSBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
 	GameWidgets.Add
-		(ESSMatchState::Pause, CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass));
+		(ESSMatchState::Pause, CreateWidget<USSBaseWidget>(GetWorld(), PauseWidgetClass));
 	GameWidgets.Add
-		(ESSMatchState::GameOver, CreateWidget<UUserWidget>(GetWorld(), GameOverWidgetClass));
+		(ESSMatchState::GameOver, CreateWidget<USSBaseWidget>(GetWorld(), GameOverWidgetClass));
 
 	for (const auto GameWidgetPair : GameWidgets)
 	{
@@ -31,6 +32,7 @@ void AMyHUD::BeginPlay()
 		if (!GameWidget) continue;
 		GameWidget->AddToViewport();
 		GameWidget->SetVisibility(ESlateVisibility::Hidden);
+		//GameWidget->Show();
 	}
 
 	if (GetWorld())
@@ -74,5 +76,6 @@ void AMyHUD::OnMatchStateChange(const ESSMatchState State)
 	if (CurrentGameWidget)
 	{
 		CurrentGameWidget->SetVisibility(ESlateVisibility::Visible);
+		CurrentGameWidget->Show();
 	}
 }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SSBaseWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "SSPauseWidget.generated.h"
 
@@ -11,18 +12,18 @@ class UButton;
  * 
  */
 UCLASS()
-class SIMPLESHOOTER_API USSPauseWidget : public UUserWidget
+class SIMPLESHOOTER_API USSPauseWidget : public USSBaseWidget
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	virtual void NativeOnInitialized() override;
 
 protected:
 	UPROPERTY(meta = (BindWidget))
 	UButton* ClearPauseButton;
 
-	private:
+private:
 	UFUNCTION()
 	void OnClearPause();
 };

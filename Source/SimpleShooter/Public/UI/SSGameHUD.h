@@ -6,6 +6,7 @@
 #include "GameFramework/HUD.h"
 #include "SSGameHUD.generated.h"
 
+class USSBaseWidget;
 enum class ESSMatchState : uint8;
 /**
  * 
@@ -32,10 +33,10 @@ protected:
 
 private:
 	UPROPERTY()
-	TMap<ESSMatchState, UUserWidget*> GameWidgets;
+	TMap<ESSMatchState, USSBaseWidget*> GameWidgets;
 
 	UPROPERTY()
-	UUserWidget* CurrentGameWidget = nullptr;
+	USSBaseWidget* CurrentGameWidget = nullptr;
 
 	void DrawCrossHair();
 	void OnMatchStateChange(ESSMatchState State);

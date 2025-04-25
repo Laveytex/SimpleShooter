@@ -3,9 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SSBaseWidget.h"
 #include "SSCoreTypes.h"
-#include "Blueprint/UserWidget.h"
-#include "Components/SSHealthComponent.h"
 #include "SSPlayerHUDWidget.generated.h"
 
 
@@ -13,7 +12,7 @@ class ASSPlayerState;
 class UProgressBar;
 
 UCLASS()
-class SIMPLESHOOTER_API USSPlayerHUDWidget : public UUserWidget
+class SIMPLESHOOTER_API USSPlayerHUDWidget : public USSBaseWidget
 {
 	GENERATED_BODY()
 

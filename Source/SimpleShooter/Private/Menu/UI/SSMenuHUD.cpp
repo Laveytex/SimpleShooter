@@ -12,10 +12,11 @@ void ASSMenuHUD::BeginPlay()
 
 	if(MainMenuWidgetClass)
 	{
-		const auto MenuWidget = CreateWidget<USSMenuWidget>(GetWorld(), MainMenuWidgetClass);
+		const auto MenuWidget = CreateWidget<USSBaseWidget>(GetWorld(), MainMenuWidgetClass);
 		if (MenuWidget)
 		{
 			MenuWidget->AddToViewport();
+			MenuWidget->Show();
 		}
 	}
 }

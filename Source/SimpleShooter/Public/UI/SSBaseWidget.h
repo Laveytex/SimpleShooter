@@ -14,7 +14,10 @@ class SIMPLESHOOTER_API USSBaseWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void Show();
+
 protected:
 	UPROPERTY(meta = (BindWidgetAnim), Transient)
-	UWidgetAnimation* DamageAnimation;
+	UWidgetAnimation* ShowAnimation;
 };
