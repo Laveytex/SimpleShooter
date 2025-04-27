@@ -122,7 +122,7 @@ void ASSBaseWeapon::StopFire()
 
  bool ASSBaseWeapon::TryToAddAmmo(const int32 ClipsAmount)
  {
- 	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <=0) return false;
+ 	if (CurrentAmmo.Infinite || IsAmmoFull() || ClipsAmount <= 0) return false;
 
     if (IsAmmoEmpty())
     {

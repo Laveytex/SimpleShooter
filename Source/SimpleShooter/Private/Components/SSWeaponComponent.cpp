@@ -31,7 +31,7 @@ void USSWeaponComponent::StopFire()
 void USSWeaponComponent::NextWeapon()
 {
 	if(!CanEquip()) return;
-	
+	BreakReload();
 	CurrentWeaponIndex = (CurrentWeaponIndex + 1) % Weapons.Num();
 	EquipWeapons(CurrentWeaponIndex);
 }
@@ -85,12 +85,12 @@ void USSWeaponComponent::SpawnWeapons()
 void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName)
 {
 	if (!Weapon || !Mesh) return;
-	
-	FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+
+	const FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
 	Weapon->AttachToComponent(Mesh, AttachmentRules, SocketName);
 }
 
-void USSWeaponComponent::EquipWeapons(int32 WeaponIndex)
+void USSWeaponComponent::EquipWeapons(const int32 WeaponIndex)
 {
 	if(WeaponIndex < 0 || WeaponIndex >= Weapons.Num())
 	{
@@ -152,6 +152,7 @@ void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || Character->GetMesh() != MeshComponent) return;
+	CurrentWeapon->ChangeClip();
 	ReloadAnimInProgress = false;
 }
 
@@ -187,9 +188,19 @@ void USSWeaponComponent::ChangeClip()
 {
 	if(!CanReload()) return;
 	CurrentWeapon->StopFire();
-	CurrentWeapon->ChangeClip();
+	
 	ReloadAnimInProgress = true;
 	PlayAnimMontage(CurrentReloadAnimMontage);
+}
+
+void USSWeaponComponent::BreakReload()
+{
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	if (!Character) return;
+
+	Character->StopAnimMontage(CurrentReloadAnimMontage);
+	ReloadAnimInProgress = false;
+	EquipAnimInProgress = false;
 }
 
 bool USSWeaponComponent::CanFire() const
@@ -199,7 +210,7 @@ bool USSWeaponComponent::CanFire() const
 
 bool USSWeaponComponent::CanEquip() const
 {
-	return !EquipAnimInProgress && !ReloadAnimInProgress;
+	return !EquipAnimInProgress;// && !ReloadAnimInProgress;
 }
 
 bool USSWeaponComponent::GetCurrentWeaponUIData(FWeaponUIData& UIData) const

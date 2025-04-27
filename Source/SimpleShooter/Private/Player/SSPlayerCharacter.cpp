@@ -92,7 +92,7 @@ void ASSPlayerCharacter::CheckCameraOverlap() const
 
 	for (const auto MeshChild : AttachedChildren)
 	{
-		auto MeshChildrenGeometry =   Cast<UPrimitiveComponent>(MeshChild);
+		const auto MeshChildrenGeometry =   Cast<UPrimitiveComponent>(MeshChild);
 		if (MeshChildrenGeometry)
 		{
 			MeshChildrenGeometry->SetOwnerNoSee(HideMesh);

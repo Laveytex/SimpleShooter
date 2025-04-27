@@ -60,7 +60,6 @@ protected:
 	
 	int32 CurrentWeaponIndex = 0;
 	void EquipWeapons(int32 WeaponIndex);
-public:
 
 private:
 	UPROPERTY()
@@ -72,7 +71,7 @@ private:
 	bool ReloadAnimInProgress = false;
 	
 	void SpawnWeapons();
-	void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
+	static void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
 
 	void PlayAnimMontage(UAnimMontage* Animation) const;
 	void InitAnimations();
@@ -83,6 +82,5 @@ private:
 
 	void OnEmptyClip(ASSBaseWeapon* EmptyWeapon);
 	void ChangeClip();
-	
-	
+	void BreakReload();
 };
