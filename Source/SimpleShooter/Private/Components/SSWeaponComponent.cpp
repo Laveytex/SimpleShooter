@@ -9,7 +9,6 @@
 #include "GameFramework/Character.h"
 #include "Weapon/SSBaseWeapon.h"
 
-// сделать функцию unequip, для зума, например
 USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -18,7 +17,6 @@ USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
 void USSWeaponComponent::StartFire()
 {
 	if (!CanFire()) return;
-
 	CurrentWeapon->StartFire();
 }
 
@@ -31,7 +29,6 @@ void USSWeaponComponent::StopFire()
 void USSWeaponComponent::NextWeapon()
 {
 	if (!CanEquip()) return;
-	BreakReload();
 	CurrentWeaponIndex = (CurrentWeaponIndex + 1) % Weapons.Num();
 	EquipWeapons(CurrentWeaponIndex);
 }
@@ -103,7 +100,7 @@ void USSWeaponComponent::EquipWeapons(const int32 WeaponIndex)
 	if (CurrentWeapon)
 	{
 		CurrentWeapon->StopFire();
-		CurrentWeapon->Zoom(false);
+		UnEquip();
 		AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponArmorySocketName);
 	}
 
@@ -266,4 +263,10 @@ bool USSWeaponComponent::NeedAmmo(const TSubclassOf<ASSBaseWeapon> WeaponType)
 void USSWeaponComponent::Zoom(bool Enable)
 {
 	CurrentWeapon->Zoom(Enable);
+}
+
+void USSWeaponComponent::UnEquip()
+{
+	CurrentWeapon->Zoom(false);
+	BreakReload();
 }

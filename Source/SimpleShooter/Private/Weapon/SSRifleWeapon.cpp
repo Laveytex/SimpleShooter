@@ -28,7 +28,7 @@ void ASSRifleWeapon::StopFire()
 
 void ASSRifleWeapon::Zoom(const bool Enable)
 {
-	const auto Controller = /*GetController();*/Cast<APlayerController>(GetController());
+	const auto Controller = Cast<APlayerController>(GetController());
 	if (!Controller || !Controller->PlayerCameraManager) return;
 
 	if (Enable)

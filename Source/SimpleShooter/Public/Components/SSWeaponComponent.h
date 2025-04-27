@@ -32,6 +32,7 @@ public:
 	bool NeedAmmo(TSubclassOf<ASSBaseWeapon> WeaponType);
 
 	void Zoom(bool Enable);
+	void UnEquip();
 
 protected:
 
