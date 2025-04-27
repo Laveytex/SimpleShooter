@@ -27,6 +27,7 @@ public:
 
 	virtual void StartFire();
 	virtual void StopFire();
+	virtual void Zoom(bool Enable);
 
 	void ChangeClip();
 	bool CanReload() const;

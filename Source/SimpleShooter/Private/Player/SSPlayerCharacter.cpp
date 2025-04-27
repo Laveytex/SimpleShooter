@@ -116,6 +116,10 @@ void ASSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USSWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USSWeaponComponent::NextWeapon);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &USSWeaponComponent::Reload);
+
+	DECLARE_DELEGATE_OneParam(FZoomImputSignature, bool)
+	PlayerInputComponent->BindAction<FZoomImputSignature>("Zoom", IE_Pressed, WeaponComponent, &USSWeaponComponent::Zoom, true);
+	PlayerInputComponent->BindAction<FZoomImputSignature>("Zoom", IE_Released, WeaponComponent, &USSWeaponComponent::Zoom, false);
 }
 
 bool ASSPlayerCharacter::IsRunning() const

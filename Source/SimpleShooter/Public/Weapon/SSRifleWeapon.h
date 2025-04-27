@@ -20,6 +20,7 @@ public:
 	
 	virtual void StartFire() override;
 	virtual void StopFire() override;
+	virtual void Zoom(bool Enable) override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
@@ -30,6 +31,9 @@ protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamageAmount = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	float FOVZoomAngle = 50.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	UNiagaraSystem* TraceFX;
@@ -54,4 +58,6 @@ private:
 	void SetMuzzleFXVisibility(bool Visible) const;
 	void SpawnTraceFX(const FVector& TraceStart, const FVector& TraceEnd) const;
 	AController* GetController() const;
+
+	float DefaultFOVAngle = 90.0f;
 };

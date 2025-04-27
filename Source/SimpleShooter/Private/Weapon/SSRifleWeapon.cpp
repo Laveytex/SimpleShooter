@@ -26,6 +26,19 @@ void ASSRifleWeapon::StopFire()
 	SetMuzzleFXVisibility(false);
 }
 
+void ASSRifleWeapon::Zoom(const bool Enable)
+{
+	const auto Controller = /*GetController();*/Cast<APlayerController>(GetController());
+	if (!Controller || !Controller->PlayerCameraManager) return;
+
+	if (Enable)
+	{
+		DefaultFOVAngle = Controller->PlayerCameraManager->GetFOVAngle();
+	}
+	
+	Controller->PlayerCameraManager->SetFOV(Enable ? FOVZoomAngle : DefaultFOVAngle);
+}
+
 void ASSRifleWeapon::MakeShot()
 {
 	if (!GetWorld() || IsAmmoEmpty())

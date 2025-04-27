@@ -19,12 +19,14 @@
 
  void ASSBaseWeapon::StartFire()
  {
-
  }
 
 void ASSBaseWeapon::StopFire()
  {
- 	
+ }
+
+ void ASSBaseWeapon::Zoom(bool Enable)
+ {
  }
 
  bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const
