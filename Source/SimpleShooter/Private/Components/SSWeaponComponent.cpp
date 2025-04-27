@@ -18,7 +18,7 @@ USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
 void USSWeaponComponent::StartFire()
 {
 	if (!CanFire()) return;
-	
+
 	CurrentWeapon->StartFire();
 }
 
@@ -30,7 +30,7 @@ void USSWeaponComponent::StopFire()
 
 void USSWeaponComponent::NextWeapon()
 {
-	if(!CanEquip()) return;
+	if (!CanEquip()) return;
 	BreakReload();
 	CurrentWeaponIndex = (CurrentWeaponIndex + 1) % Weapons.Num();
 	EquipWeapons(CurrentWeaponIndex);
@@ -60,7 +60,7 @@ void USSWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		Weapon->Destroy();
 	}
 	Weapons.Empty();
-		
+
 	Super::EndPlay(EndPlayReason);
 }
 
@@ -82,7 +82,8 @@ void USSWeaponComponent::SpawnWeapons()
 	}
 }
 
-void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName)
+void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh,
+                                              const FName& SocketName)
 {
 	if (!Weapon || !Mesh) return;
 
@@ -92,7 +93,7 @@ void USSWeaponComponent::AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMe
 
 void USSWeaponComponent::EquipWeapons(const int32 WeaponIndex)
 {
-	if(WeaponIndex < 0 || WeaponIndex >= Weapons.Num())
+	if (WeaponIndex < 0 || WeaponIndex >= Weapons.Num())
 	{
 		return;
 	}
@@ -106,10 +107,12 @@ void USSWeaponComponent::EquipWeapons(const int32 WeaponIndex)
 	}
 
 	CurrentWeapon = Weapons[WeaponIndex];
-	
+
 	//CurrentReloadAnimMontage = WeaponData[WeaponIndex].ReloadAnimMontage;
 	const auto CurrentWeaponData = WeaponData.FindByPredicate([&](const FWeaponData& Data)
-		{ return Data.WeaponClass == CurrentWeapon->GetClass();});
+	{
+		return Data.WeaponClass == CurrentWeapon->GetClass();
+	});
 	CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
 	AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
 	EquipAnimInProgress = true;
@@ -134,8 +137,9 @@ void USSWeaponComponent::InitAnimations()
 
 	for (auto OneWeaponData : WeaponData)
 	{
-		auto ReloadFinishedNotify = AnimUtils::FindNotifyByClass<USSReloadFinishedAnimNotify>(OneWeaponData.ReloadAnimMontage);
-		
+		auto ReloadFinishedNotify = AnimUtils::FindNotifyByClass<USSReloadFinishedAnimNotify>(
+			OneWeaponData.ReloadAnimMontage);
+
 		if (!ReloadFinishedNotify) continue;
 		ReloadFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnReloadFinished);
 	}
@@ -152,29 +156,30 @@ void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character || Character->GetMesh() != MeshComponent) return;
-	CurrentWeapon->ChangeClip();
 	ReloadAnimInProgress = false;
+
+	CurrentWeapon->ChangeClip();
 }
 
 bool USSWeaponComponent::CanReload() const
 {
 	return !EquipAnimInProgress
-	&& CurrentWeapon
-	&& !ReloadAnimInProgress
-	&& CurrentWeapon->CanReload();
+		&& CurrentWeapon
+		&& !ReloadAnimInProgress
+		&& CurrentWeapon->CanReload();
 }
 
 void USSWeaponComponent::OnEmptyClip(ASSBaseWeapon* EmptyWeapon)
 {
-	if(!EmptyWeapon) return;
-	
+	if (!EmptyWeapon) return;
+
 	if (CurrentWeapon == EmptyWeapon)
 	{
 		ChangeClip();
 	}
 	else
 	{
-		for( const auto Weapon : Weapons)
+		for (const auto Weapon : Weapons)
 		{
 			if (Weapon == EmptyWeapon)
 			{
@@ -186,9 +191,9 @@ void USSWeaponComponent::OnEmptyClip(ASSBaseWeapon* EmptyWeapon)
 
 void USSWeaponComponent::ChangeClip()
 {
-	if(!CanReload()) return;
+	if (!CanReload()) return;
 	CurrentWeapon->StopFire();
-	
+
 	ReloadAnimInProgress = true;
 	PlayAnimMontage(CurrentReloadAnimMontage);
 }
@@ -210,12 +215,12 @@ bool USSWeaponComponent::CanFire() const
 
 bool USSWeaponComponent::CanEquip() const
 {
-	return !EquipAnimInProgress;// && !ReloadAnimInProgress;
+	return !EquipAnimInProgress; // && !ReloadAnimInProgress;
 }
 
 bool USSWeaponComponent::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 {
-	if(CurrentWeapon)
+	if (CurrentWeapon)
 	{
 		UIData = CurrentWeapon->GetUIData();
 		return true;
@@ -225,7 +230,7 @@ bool USSWeaponComponent::GetCurrentWeaponUIData(FWeaponUIData& UIData) const
 
 bool USSWeaponComponent::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
 {
-	if(CurrentWeapon)
+	if (CurrentWeapon)
 	{
 		AmmoData = CurrentWeapon->GetAmmoData();
 		return true;

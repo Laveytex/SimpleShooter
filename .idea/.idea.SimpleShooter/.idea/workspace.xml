@@ -11,9 +11,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/BP_SSGameMod.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP_SSGameMod.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Components/SSWeaponComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Components/SSWeaponComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Weapon/SSBaseWeapon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Weapon/SSBaseWeapon.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/Components/SSWeaponComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/Components/SSWeaponComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/Weapon/SSBaseWeapon.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/Weapon/SSBaseWeapon.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,7 +200,7 @@
       <workItem from="1745492366523" duration="8988000" />
       <workItem from="1745517812282" duration="259000" />
       <workItem from="1745577697522" duration="8548000" />
-      <workItem from="1745758645516" duration="2975000" />
+      <workItem from="1745758645516" duration="4246000" />
     </task>
     <servers />
   </component>
