@@ -30,7 +30,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
 	UProjectileMovementComponent* MovementComponent;
-
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
+	UNiagaraSystem* TraceFX;
+	
 	UPROPERTY(VisibleAnywhere, Category = "VFX")
 	USSWeaponFXComponent* WeaponFXComponent;
 	
@@ -48,6 +51,9 @@ protected:
 	
 private:
 	FVector ShotDirection;
+
+	UPROPERTY()
+	UNiagaraComponent* TraceFXComponent;
 
 	UFUNCTION()
 	void OnProjectileHit( UPrimitiveComponent* HitComponent,

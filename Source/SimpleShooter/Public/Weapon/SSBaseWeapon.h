@@ -85,9 +85,7 @@ protected:
 	
 	bool IsClipEmpty() const;
 	
-	void LogAmmo();
-
-	UNiagaraComponent* SpawnMuzzleFX();
+	UNiagaraComponent* SpawnMuzzleFX() const;
 	
 private:
 	FAmmoData CurrentAmmo;

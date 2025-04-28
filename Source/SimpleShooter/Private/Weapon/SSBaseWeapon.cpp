@@ -159,11 +159,7 @@ void ASSBaseWeapon::StopFire()
  	return true;
  }
 
- void ASSBaseWeapon::LogAmmo()
- {
- }
-
- UNiagaraComponent* ASSBaseWeapon::SpawnMuzzleFX()
+ UNiagaraComponent* ASSBaseWeapon::SpawnMuzzleFX() const
  {
 	return 	UNiagaraFunctionLibrary::SpawnSystemAttached
  	(MuzzleFX, WeaponMesh, MuzzleSocketName,
