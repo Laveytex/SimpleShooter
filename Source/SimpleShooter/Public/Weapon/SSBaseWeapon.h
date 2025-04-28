@@ -87,7 +87,7 @@ protected:
 	
 	void LogAmmo();
 
-	UNiagaraComponent* SpawnMuzzleFX() const;
+	UNiagaraComponent* SpawnMuzzleFX();
 	
 private:
 	FAmmoData CurrentAmmo;

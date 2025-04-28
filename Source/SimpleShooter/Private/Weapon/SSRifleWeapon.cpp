@@ -120,7 +120,8 @@ void ASSRifleWeapon::SetFXActive(const bool IsActive) const
 
 	if (FireAudioComponent)
 	{
-		IsActive ? FireAudioComponent->Play() : FireAudioComponent->Stop();
+		//IsActive ? FireAudioComponent->Play() : FireAudioComponent->Stop();
+		FireAudioComponent->SetPaused(!IsActive);
 	}
 }
 

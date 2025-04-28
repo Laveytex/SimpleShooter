@@ -8,23 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/BP_SSGameMod.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/BP_SSGameMod.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Levels/Level_Test.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Levels/Level_Test.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Player/BP_SSPlayerCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Player/BP_SSPlayerCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Player/BP_SSPlayerController.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Player/BP_SSPlayerController.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Sound/Settings/SC_Character.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Sound/Settings/SC_Character.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Sound/Settings/SC_Impuct.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Sound/Settings/SC_Impuct.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Sound/Settings/SC_Pickup.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Sound/Settings/SC_Pickup.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Sound/Settings/SC_UI.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Sound/Settings/SC_UI.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Sound/Settings/SC_Weapon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Sound/Settings/SC_Weapon.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerController.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSPlayerController.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameInstance.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameInstance.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerController.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSPlayerController.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/SSGameInstance.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/SSGameInstance.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Weapon/SSBaseWeapon.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Weapon/SSBaseWeapon.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +204,7 @@
       <workItem from="1745780526290" duration="1916000" />
       <workItem from="1745784297835" duration="594000" />
       <workItem from="1745842839916" duration="5636000" />
-      <workItem from="1745858731100" duration="1642000" />
+      <workItem from="1745858731100" duration="4670000" />
     </task>
     <servers />
   </component>
