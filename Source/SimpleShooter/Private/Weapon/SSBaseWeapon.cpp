@@ -181,5 +181,8 @@ void ASSBaseWeapon::StopFire()
 
  void ASSBaseWeapon::MakeShot()
  {
-
+	 if (IsAmmoEmpty() && GetWorld())
+	 {
+		 UGameplayStatics::SpawnSoundAtLocation(GetWorld(), NoAmmoSound, GetActorLocation());
+	 }
  }

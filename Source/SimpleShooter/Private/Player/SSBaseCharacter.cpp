@@ -9,6 +9,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/SSCharacterMovementComponent.h"
 #include "Engine/DamageEvents.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 DEFINE_LOG_CATEGORY_STATIC(BaseCharacterLog, All, All);
 
@@ -75,6 +77,8 @@ void ASSBaseCharacter::OnDeath()
 
 	GetMesh()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	GetMesh()->SetSimulatePhysics(true);
+
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
 }
 
 void ASSBaseCharacter::OnHealthChanged(const float Health,  float HealthDelta) const

@@ -4,6 +4,7 @@
 #include "Weapon/SSLouncherWeapon.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 void ASSLouncherWeapon::StartFire()
 {
@@ -12,6 +13,8 @@ void ASSLouncherWeapon::StartFire()
 
 void ASSLouncherWeapon::MakeShot()
 {
+	Super::MakeShot();
+	
 	if (!GetWorld() || IsAmmoEmpty()) return;
 
 	FVector TraceStart, TraceEnd;
@@ -36,4 +39,6 @@ void ASSLouncherWeapon::MakeShot()
 
 	DecreaseAmmo();
 	SpawnMuzzleFX();
+	
+	UGameplayStatics::SpawnSoundAttached(FireSound, WeaponMesh, MuzzleSocketName);
 }

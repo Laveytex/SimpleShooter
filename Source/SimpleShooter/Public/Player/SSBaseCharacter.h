@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Material")
 	FName MaterialColorName = "Paint Color";
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* DeathSound;
+
 	virtual void OnDeath();
 	virtual void BeginPlay() override;
 	virtual  void OnHealthChanged(float Health, float HealthDelta) const;
