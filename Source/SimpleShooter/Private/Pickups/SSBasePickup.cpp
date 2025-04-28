@@ -60,17 +60,13 @@ bool ASSBasePickup::GivePickupTo(APawn* PlayerPawn)
 
 void ASSBasePickup::PickupWasTaken()
 {
-	if (GetWorld())
-	{
-		UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PickupSound, GetActorLocation());
-	}
 	CollisionComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
 	
 	GetRootComponent()->SetVisibility(false, true);
 
 	GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ASSBasePickup::Respawn, RespawnTime);
-
 	
+	UGameplayStatics::SpawnSoundAtLocation(GetWorld(), PickupSound, GetActorLocation());
 }
 
 void ASSBasePickup::Respawn()

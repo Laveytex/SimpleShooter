@@ -4,6 +4,7 @@
 
 //SSWeaponBase
 
+class USoundCue;
 class ASSBaseWeapon;
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnClipeEmptySigyature, ASSBaseWeapon*)
@@ -87,7 +88,9 @@ struct FImpactData
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	FDecalData DecalData;
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* ImpactSound;
 };
 
 USTRUCT(BlueprintType)
