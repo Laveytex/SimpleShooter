@@ -172,7 +172,6 @@ void ASSBaseWeapon::StopFire()
  		EAttachLocation::SnapToTarget, true);
  }
 
-
  void ASSBaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();

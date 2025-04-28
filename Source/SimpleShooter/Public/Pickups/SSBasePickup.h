@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "SSBasePickup.generated.h"
 
+class USoundCue;
 class USphereComponent;
 
 UCLASS()
@@ -27,6 +28,9 @@ protected:
 	
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* PickupSound;
 	
 public:	
 	// Called every frame
