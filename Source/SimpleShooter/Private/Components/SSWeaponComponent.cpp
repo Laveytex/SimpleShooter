@@ -7,6 +7,8 @@
 #include "Animations/SSEquipFinishedAnimNotify.h"
 #include "Animations/SSReloadFinishedAnimNotify.h"
 #include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 #include "Weapon/SSBaseWeapon.h"
 
 USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
@@ -114,6 +116,7 @@ void USSWeaponComponent::EquipWeapons(const int32 WeaponIndex)
 	CurrentReloadAnimMontage = CurrentWeaponData ? CurrentWeaponData->ReloadAnimMontage : nullptr;
 	AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
 	EquipAnimInProgress = true;
+	CurrentWeapon->PlayEquipSound();
 	PlayAnimMontage(EquipAnimMontage);
 }
 

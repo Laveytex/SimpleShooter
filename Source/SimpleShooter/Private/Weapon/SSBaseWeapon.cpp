@@ -8,6 +8,8 @@
 #include "GameFramework/Character.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
  ASSBaseWeapon::ASSBaseWeapon()
 {
@@ -27,6 +29,12 @@ void ASSBaseWeapon::StopFire()
 
  void ASSBaseWeapon::Zoom(bool Enable)
  {
+ }
+
+ void ASSBaseWeapon::PlayEquipSound()
+ {
+ 	if(!GetWorld()) return;
+ 	UGameplayStatics::PlaySound2D(this, WeaponEquipSound);
  }
 
  bool ASSBaseWeapon::GetPlayerViewPoint(FVector& ViewLocation, FRotator& ViewRotation) const

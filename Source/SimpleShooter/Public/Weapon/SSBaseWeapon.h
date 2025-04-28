@@ -8,7 +8,7 @@
 #include "SSBaseWeapon.generated.h"
 
 
-
+class USoundCue;
 class USkeletalMeshComponent;
 class UNiagaraSystem;
 class UNiagaraComponent;
@@ -28,6 +28,8 @@ public:
 	virtual void StartFire();
 	virtual void StopFire();
 	virtual void Zoom(bool Enable);
+
+	virtual void PlayEquipSound();
 
 	void ChangeClip();
 	bool CanReload() const;
@@ -57,8 +59,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	UNiagaraSystem* MuzzleFX;
-	
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* WeaponEquipSound;
 	
 	virtual void BeginPlay() override;
 
