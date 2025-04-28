@@ -35,6 +35,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
 	TSubclassOf<UUserWidget> LevelItemWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sound")
+	USoundCue* ButtonStartSound;
 	
 	virtual void NativeOnInitialized() override;
 	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;

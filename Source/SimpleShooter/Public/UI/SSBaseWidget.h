@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SSBaseWidget.generated.h"
 
+class USoundCue;
 /**
  * 
  */
@@ -15,9 +16,14 @@ class SIMPLESHOOTER_API USSBaseWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void Show();
+	virtual void Show();
+
+	virtual void OnStartPlaySound() const;
 
 protected:
 	UPROPERTY(meta = (BindWidgetAnim), Transient)
 	UWidgetAnimation* ShowAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
+	USoundCue* OpenWidgetSound;
 };

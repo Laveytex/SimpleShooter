@@ -8,6 +8,7 @@
 #include "Components/HorizontalBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Menu/UI/SSLevelItemWidget.h"
+#include "Sound/SoundCue.h"
 
 void USSMenuWidget::NativeOnInitialized()
 {
@@ -42,6 +43,8 @@ void USSMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* A
 void USSMenuWidget::OnStartGame()
 {
 	PlayAnimation(HideAnimation);
+	if(!GetWorld()) return;
+	UGameplayStatics::PlaySound2D(this, ButtonStartSound);
 }
 
 void USSMenuWidget::OnQuitGame()
