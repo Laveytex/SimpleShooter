@@ -35,7 +35,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float FOVZoomAngle = 50.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "FX")
 	UNiagaraSystem* TraceFX;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")

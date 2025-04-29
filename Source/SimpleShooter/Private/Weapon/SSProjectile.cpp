@@ -5,8 +5,10 @@
 
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 #include "Weapon/Components/SSWeaponFXComponent.h"
 
 ASSProjectile::ASSProjectile()
@@ -20,6 +22,10 @@ ASSProjectile::ASSProjectile()
 	CollisionComponent->bReturnMaterialOnMove = true;
 	SetRootComponent(CollisionComponent);
 
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	MeshComponent->SetupAttachment(CollisionComponent);
+	MeshComponent->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 	MovementComponent->InitialSpeed = 2000.0f;
 	MovementComponent->ProjectileGravityScale = 0.0f;
@@ -30,40 +36,52 @@ ASSProjectile::ASSProjectile()
 void ASSProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	MovementComponent->Velocity = ShotDirection * MovementComponent->InitialSpeed;
 	CollisionComponent->IgnoreActorWhenMoving(GetOwner(), true);
 	CollisionComponent->OnComponentHit.AddDynamic(this, &ASSProjectile::OnProjectileHit);
+	
+	ProjectleAudioComponent = UGameplayStatics::SpawnSoundAttached(ProjectileSound, CollisionComponent, FName("SocketName"));
 	SetLifeSpan(LifeTime);
-
-	///
-	///
-	UNiagaraFunctionLibrary::SpawnSystemAttached
-	(TraceFX, CollisionComponent,  FName("SocketName"),
-		FVector::ZeroVector, FRotator::ZeroRotator,
-		EAttachLocation::SnapToTarget, true);
+	InitFX();
 }
 
 void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
-	AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+                                    AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
+                                    const FHitResult& Hit)
 {
-	if(!GetWorld()) return;
+	if (!GetWorld()) return;
 	MovementComponent->StopMovementImmediately();
 
-	
 	UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageAmount, GetActorLocation(),
-		DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this,
-		GetController(), DoFullDamage);
+	                                    DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this,
+	                                    GetController(), DoFullDamage);
 
 	/*DrawDebugSphere(GetWorld(), GetActorLocation(), DamageRadius, 24,
 		FColor::Yellow, false, 5.0f);*/
 	WeaponFXComponent->PlayImpactFX(Hit);
 
+	if (CollisionComponent)
+	{
+		CollisionComponent->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
+	}
+
+	if (MeshComponent)
+	{
+		MeshComponent->SetVisibility(false);
+	}
+
+	if (ProjectleAudioComponent)
+	{
+		ProjectleAudioComponent->Stop();
+	}
+	
 	if (TraceFXComponent)
 	{
 		TraceFXComponent->Deactivate();
+		
 		FTimerHandle TimerHandle;
-		const float DelayBeforeDestroy = 3.0f;
+		constexpr float DelayBeforeDestroy = 3.0f;
 
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
 		{
@@ -79,3 +97,19 @@ AController* ASSProjectile::GetController() const
 	return Pawn ? Pawn->GetController() : nullptr;
 }
 
+void ASSProjectile::InitFX()
+{
+	if (!TraceFXComponent)
+	{
+		TraceFXComponent = SpawnFX();
+		TraceFXComponent->SetActive(true);
+	}
+}
+
+UNiagaraComponent* ASSProjectile::SpawnFX() const
+{
+	return UNiagaraFunctionLibrary::SpawnSystemAttached
+	(TraceFX, CollisionComponent, FName("SocketName"),
+	 FVector::ZeroVector, FRotator::ZeroRotator,
+	 EAttachLocation::SnapToTarget, true);
+}
