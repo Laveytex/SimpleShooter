@@ -18,11 +18,11 @@ UCLASS()
 class SIMPLESHOOTER_API ASSProjectile : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	ASSProjectile();
-	
-	void SetShotDirecton(const FVector& Direction){ ShotDirection = Direction; };
+
+	void SetShotDirecton(const FVector& Direction) { ShotDirection = Direction; };
 
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon")
@@ -33,7 +33,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	UStaticMeshComponent* MeshComponent;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	UNiagaraSystem* TraceFX;
 	
@@ -42,8 +42,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sound")
 	USoundCue* ProjectileSound;
-	
-	
+
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float DamageRadius = 200.0f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
@@ -51,11 +51,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	bool DoFullDamage = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	float LifeTime = 5.0f;
-	
+	float LifeTime = 1.0f;
+
 	virtual void BeginPlay() override;
 
-	
 private:
 	FVector ShotDirection;
 
@@ -63,13 +62,19 @@ private:
 	UNiagaraComponent* TraceFXComponent;
 
 	UFUNCTION()
-	void OnProjectileHit( UPrimitiveComponent* HitComponent,
-		AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	void OnProjectileHit(UPrimitiveComponent* HitComponent,
+	                     AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
+	                     const FHitResult& Hit);
 
 	AController* GetController() const;
 	void InitFX();
 	UNiagaraComponent* SpawnFX() const;
 
 	UPROPERTY()
-	UAudioComponent* ProjectleAudioComponent;
+	UAudioComponent* ProjectileAudioComponent;
+
+	UFUNCTION()
+	void OnNiagaraFinished(UNiagaraComponent* Component);
+
+	bool bHasHit = false;
 };

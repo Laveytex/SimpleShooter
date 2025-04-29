@@ -11,6 +11,14 @@
 #include "Sound/SoundCue.h"
 #include "Weapon/Components/SSWeaponFXComponent.h"
 
+/*FTimerHandle TimerHandle;
+		constexpr float DelayBeforeDestroy = 3.0f;
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
+		{
+			Destroy();
+		}, DelayBeforeDestroy, false);*/
+
 ASSProjectile::ASSProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -37,13 +45,16 @@ void ASSProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	MovementComponent->Velocity = ShotDirection * MovementComponent->InitialSpeed;
 	CollisionComponent->IgnoreActorWhenMoving(GetOwner(), true);
 	CollisionComponent->OnComponentHit.AddDynamic(this, &ASSProjectile::OnProjectileHit);
-	
-	ProjectleAudioComponent = UGameplayStatics::SpawnSoundAttached(ProjectileSound, CollisionComponent, FName("SocketName"));
-	SetLifeSpan(LifeTime);
+
+	ProjectileAudioComponent = UGameplayStatics::SpawnSoundAttached(ProjectileSound, CollisionComponent,
+	                                                                FName("SocketName"));
 	InitFX();
+
+	SetLifeSpan(LifeTime);
 }
 
 void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
@@ -51,7 +62,14 @@ void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
                                     const FHitResult& Hit)
 {
 	if (!GetWorld()) return;
-	MovementComponent->StopMovementImmediately();
+
+	if (bHasHit) return;
+	bHasHit = true;
+
+	if (MovementComponent)
+	{
+		MovementComponent->StopMovementImmediately();
+	}
 
 	UGameplayStatics::ApplyRadialDamage(GetWorld(), DamageAmount, GetActorLocation(),
 	                                    DamageRadius, UDamageType::StaticClass(), {GetOwner()}, this,
@@ -68,25 +86,17 @@ void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
 
 	if (MeshComponent)
 	{
-		MeshComponent->SetVisibility(false);
+		MeshComponent->SetVisibility(true);
 	}
 
-	if (ProjectleAudioComponent)
+	if (ProjectileAudioComponent)
 	{
-		ProjectleAudioComponent->Stop();
+		ProjectileAudioComponent->Stop();
 	}
-	
+
 	if (TraceFXComponent)
 	{
 		TraceFXComponent->Deactivate();
-		
-		FTimerHandle TimerHandle;
-		constexpr float DelayBeforeDestroy = 3.0f;
-
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, [this]()
-		{
-			Destroy();
-		}, DelayBeforeDestroy, false);
 	}
 }
 
@@ -99,9 +109,15 @@ AController* ASSProjectile::GetController() const
 
 void ASSProjectile::InitFX()
 {
-	if (!TraceFXComponent)
+	if (!GetWorld()) return;
+
+	TraceFXComponent = SpawnFX();
+
+	if (TraceFXComponent)
 	{
-		TraceFXComponent = SpawnFX();
+		GetWorldTimerManager().ClearTimer(TimerHandle_LifeSpanExpired);
+		TraceFXComponent->OnSystemFinished.AddDynamic(this, &ASSProjectile::OnNiagaraFinished);
+
 		TraceFXComponent->SetActive(true);
 	}
 }
@@ -112,4 +128,9 @@ UNiagaraComponent* ASSProjectile::SpawnFX() const
 	(TraceFX, CollisionComponent, FName("SocketName"),
 	 FVector::ZeroVector, FRotator::ZeroRotator,
 	 EAttachLocation::SnapToTarget, true);
+}
+
+void ASSProjectile::OnNiagaraFinished(UNiagaraComponent* Component)
+{
+	Destroy();
 }
