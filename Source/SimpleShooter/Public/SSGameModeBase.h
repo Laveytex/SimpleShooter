@@ -64,4 +64,6 @@ private:
 	void StartRespawn(AController* Controller) const;
 
 	void SetMatchStateChange(ESSMatchState State);
+
+	void StopAllFire();
 };

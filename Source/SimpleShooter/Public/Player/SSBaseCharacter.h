@@ -54,7 +54,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	float GetMovementDirection() const;
 
-
+	virtual void TurnOff() override;
+	virtual void Reset() override;
+	
 	void SetPlayerColor(const FLinearColor& Color) const;
 
 private:

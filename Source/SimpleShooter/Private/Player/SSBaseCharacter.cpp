@@ -57,6 +57,20 @@ float ASSBaseCharacter::GetMovementDirection() const
 	return CrossProduct.IsZero() ? Degrees : Degrees * FMath::Sign(CrossProduct.Z);
 }
 
+void ASSBaseCharacter::TurnOff()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::TurnOff();
+}
+
+void ASSBaseCharacter::Reset()
+{
+	WeaponComponent->StopFire();
+	WeaponComponent->Zoom(false);
+	Super::Reset();
+}
+
 void ASSBaseCharacter::SetPlayerColor(const FLinearColor& Color) const
 {
 	const auto MaterialInst = GetMesh()->CreateAndSetMaterialInstanceDynamic(0);

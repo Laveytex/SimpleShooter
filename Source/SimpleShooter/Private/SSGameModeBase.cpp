@@ -51,6 +51,7 @@ bool ASSGameModeBase::SetPause(APlayerController* PC, FCanUnpause CanUnpauseDele
 	const auto PauseSet = Super::SetPause(PC, CanUnpauseDelegate);
 	if (PauseSet)
 	{
+		StopAllFire();
 		SetMatchStateChange(ESSMatchState::Pause);
 	}
 	return PauseSet;
@@ -121,7 +122,7 @@ void ASSGameModeBase::StartGameRound()
 
 void ASSGameModeBase::GameTimerUpdate()
 {
-	UE_LOG(LogSSGameModBase, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum)
+	//UE_LOG(LogSSGameModBase, Display, TEXT("Time: %i / Round: %i/%i"), RoundCountDown, CurrentRound, GameData.RoundsNum)
 
 	//вариант работы таймера
 	/*const auto TimeRate = GetWorldTimerManager().GetTimerRate(GameRoundTimerHandle);
@@ -258,6 +259,18 @@ void ASSGameModeBase::SetMatchStateChange(const ESSMatchState State)
 	if (MatchState == State) return;
 	MatchState = State;
 	OnMatchStateChanged.Broadcast(MatchState);
+}
+
+void ASSGameModeBase::StopAllFire()
+{
+	for (const auto Pawn : TActorRange<APawn>(GetWorld()))
+	{
+		const auto WeaponComponent = SSUtils::GetSSPlayerComponent<USSWeaponComponent>(Pawn);
+		if(!WeaponComponent) continue;
+
+		WeaponComponent->StopFire();
+		WeaponComponent->Zoom(false);
+	}
 }
 
 void ASSGameModeBase::RespawnRequest(AController* Controller)
