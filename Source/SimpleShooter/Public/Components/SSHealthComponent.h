@@ -47,6 +47,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Heal", meta = (EditCondition = "AutoHeal"))
 	float HealModifier = 5.f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health")
+	TMap<UPhysicalMaterial*, float> DamageModifiers;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
 	TSubclassOf<UCameraShakeBase> CameraShake;
 	
@@ -57,7 +60,11 @@ private:
 	float Health = 0.0f;
 
 	float HealTime = HealthDelay;
-	
+
+	UFUNCTION()
+	void OnTakePointDamage(AActor* DamagedActor, float Damage, class AController* InstigatedBy, FVector HitLocation, class UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const class UDamageType* DamageType, AActor* DamageCauser );
+	UFUNCTION()
+	void OnTakeRadialDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, FVector Origin, const FHitResult& HitInfo, class AController* InstigatedBy, AActor* DamageCauser );
 	UFUNCTION()
 	void OnTakeAnyDamage (AActor* DamagedActor, float Damage, const UDamageType* DamageType,
 		AController* InstigatedBy, AActor* DamageCauser);
@@ -70,6 +77,8 @@ private:
 	void PlayCameraShake() const;
 
 	void Killed(const AController* KillerController) const;
-
+	void ApplyDamage(float Damage, const AController* InstigatedBy);
 	void ReportDamageEvent(float Damage, const AController* InstigatedController) const;
+
+	float GetPointDamageModifire(AActor* DamagedActor, const FName& BoneName);
 };

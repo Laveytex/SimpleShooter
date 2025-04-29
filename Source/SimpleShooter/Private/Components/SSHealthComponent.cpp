@@ -2,8 +2,6 @@
 
 
 #include "Components/SSHealthComponent.h"
-
-
 #include "SSGameModeBase.h"
 #include "Perception/AISense_Damage.h"
 #include "Player/SSBaseCharacter.h"
@@ -25,36 +23,9 @@ void USSHealthComponent::BeginPlay()
 	if (ComponentOwner)
 	{
 		ComponentOwner->OnTakeAnyDamage.AddDynamic(this, &USSHealthComponent::OnTakeAnyDamage);
+		ComponentOwner->OnTakePointDamage.AddDynamic(this, &USSHealthComponent::OnTakePointDamage);
+		ComponentOwner->OnTakeRadialDamage.AddDynamic(this, &USSHealthComponent::OnTakeRadialDamage);
 	}
-}
-
-void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
-	AController* InstigatedBy, AActor* DamageCauser)
-{
-	if (Damage <= 0.0f || IsDead() || !GetWorld()) return;
-
-	// ?
-	//HealTime = HealthDelay;
-	
-	SetHealth(Health - Damage);
-
-	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
-	
-	OnHealthChanged.Broadcast(Health, 0.0f);
-	
-	//Health -= Damage;
-	if (IsDead())
-	{
-		Killed(InstigatedBy);
-		OnDeath.Broadcast();
-	}	
-	else if (AutoHeal)
-	{
-		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this,  &USSHealthComponent::HealUpdate, HealUpdateTime, true, HealthDelay);
-	}
-
-	PlayCameraShake();
-	ReportDamageEvent(Damage, InstigatedBy);
 }
 
 void USSHealthComponent::HealUpdate()
@@ -97,6 +68,53 @@ void USSHealthComponent::Killed(const AController* KillerController) const
 	GameMode->Killed(KillerController, VictimController);
 }
 
+void USSHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+										 AController* InstigatedBy, AActor* DamageCauser)
+{
+	UE_LOG(LogTemp, Display, TEXT("OnAnyDamage %f"),Damage);
+}
+
+void USSHealthComponent::OnTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy,
+	FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection,
+	const UDamageType* DamageType, AActor* DamageCauser)
+{
+	const auto FinalDamage = Damage * GetPointDamageModifire(DamagedActor, BoneName);
+	UE_LOG(LogTemp, Display, TEXT("OnPointDamage %f, bome: %s"),FinalDamage, *BoneName.ToString() );
+	ApplyDamage(FinalDamage, InstigatedBy);
+}
+
+void USSHealthComponent::OnTakeRadialDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
+	FVector Origin, const FHitResult& HitInfo, AController* InstigatedBy, AActor* DamageCauser)
+{
+	UE_LOG(LogTemp, Display, TEXT("OnRadialDamage %f"),Damage);
+	ApplyDamage(Damage, InstigatedBy);
+}
+
+void USSHealthComponent::ApplyDamage(const float Damage, const AController* InstigatedBy)
+{
+	if (Damage <= 0.0f || IsDead() || !GetWorld()) return;
+	
+	SetHealth(Health - Damage);
+
+	GetWorld()->GetTimerManager().ClearTimer(HealTimerHandle);
+	
+	OnHealthChanged.Broadcast(Health, 0.0f);
+	
+	//Health -= Damage;
+	if (IsDead())
+	{
+		Killed(InstigatedBy);
+		OnDeath.Broadcast();
+	}	
+	else if (AutoHeal)
+	{
+		GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this,  &USSHealthComponent::HealUpdate, HealUpdateTime, true, HealthDelay);
+	}
+
+	PlayCameraShake();
+	ReportDamageEvent(Damage, InstigatedBy);
+}
+
 void USSHealthComponent::ReportDamageEvent(const float Damage, const AController* InstigatedController) const
 {
 	if (!GetWorld() || !GetOwner() || !InstigatedController || !InstigatedController->GetPawn()) return;
@@ -107,6 +125,17 @@ void USSHealthComponent::ReportDamageEvent(const float Damage, const AController
 		Damage,
 		InstigatedController->GetPawn()->GetActorLocation(),
 		GetOwner()->GetActorLocation());
+}
+
+float USSHealthComponent::GetPointDamageModifire(AActor* DamagedActor, const FName& BoneName)
+{
+	const auto Character = Cast<ACharacter>(DamagedActor);
+	if(!Character || !Character->GetMesh() || !Character->GetMesh()->GetBodyInstance(BoneName)) return 1.0f;
+
+	const auto PhysMaterial = Character->GetMesh()->GetBodyInstance(BoneName)->GetSimplePhysicalMaterial();
+	if(!DamageModifiers.Contains(PhysMaterial)) return 1.0f;
+
+	return DamageModifiers[PhysMaterial];
 }
 
 bool USSHealthComponent::IsHealthFull() const

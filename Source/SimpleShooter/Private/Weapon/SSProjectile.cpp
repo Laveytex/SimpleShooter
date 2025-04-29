@@ -86,7 +86,7 @@ void ASSProjectile::OnProjectileHit(UPrimitiveComponent* HitComponent,
 
 	if (MeshComponent)
 	{
-		MeshComponent->SetVisibility(true);
+		MeshComponent->SetVisibility(false);
 	}
 
 	if (ProjectileAudioComponent)
