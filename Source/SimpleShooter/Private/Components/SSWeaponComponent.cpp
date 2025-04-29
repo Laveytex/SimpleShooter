@@ -10,10 +10,9 @@
 #include "Components/AudioComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "Sound/SoundCue.h"
 #include "Weapon/SSBaseWeapon.h"
 
-USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr)
+USSWeaponComponent::USSWeaponComponent(): EquipAnimMontage(nullptr), ReloadSoundComponent(nullptr)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 }
@@ -131,7 +130,7 @@ void USSWeaponComponent::PlayAnimMontage(UAnimMontage* Animation) const
 
 void USSWeaponComponent::InitAnimations()
 {
-	auto EquipFinishedNotify = AnimUtils::FindNotifyByClass<USSEquipFinishedAnimNotify>(EquipAnimMontage);
+	const auto EquipFinishedNotify = AnimUtils::FindNotifyByClass<USSEquipFinishedAnimNotify>(EquipAnimMontage);
 	if (EquipFinishedNotify)
 	{
 		EquipFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnEquipFinished);
@@ -165,19 +164,11 @@ void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 	CurrentWeapon->ChangeClip();
 }
 
-void USSWeaponComponent::OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent,
-                                                      USoundBase* SoundBase)
+void USSWeaponComponent::OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase)
 {
-	if (!SoundBase || !SkeletalMeshComponent) return;
-
-	if (ReloadSoundComponent && ReloadSoundComponent->IsPlaying())
-	{
-		return;
-	}
+	if (!SoundBase || !SkeletalMeshComponent || !ReloadAnimInProgress) return;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 	ReloadSoundComponent = UGameplayStatics::SpawnSoundAttached(SoundBase, SkeletalMeshComponent);
-	UE_LOG(LogTemp, Warning, TEXT("ReloadSound Triggered: %s | %s"),
-		*GetNameSafe(SkeletalMeshComponent),
-		*GetNameSafe(SoundBase));
 }
 
 bool USSWeaponComponent::CanReload() const
