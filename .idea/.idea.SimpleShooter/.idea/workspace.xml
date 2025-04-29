@@ -7,13 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSBaseCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Player/SSBaseCharacter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameModeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/SSGameModeBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSBaseCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/Player/SSBaseCharacter.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/SSGameModeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/SSGameModeBase.h" afterDir="false" />
-    </list>
+    <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -215,7 +209,7 @@
       <workItem from="1745784297835" duration="594000" />
       <workItem from="1745842839916" duration="5636000" />
       <workItem from="1745858731100" duration="7430000" />
-      <workItem from="1745929228425" duration="10551000" />
+      <workItem from="1745929228425" duration="10974000" />
     </task>
     <servers />
   </component>
