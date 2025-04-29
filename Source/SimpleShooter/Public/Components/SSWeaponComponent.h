@@ -67,22 +67,26 @@ private:
 	UPROPERTY()
 	UAnimMontage* CurrentReloadAnimMontage = nullptr;
 	
-
-
 	bool EquipAnimInProgress = false;
 	bool ReloadAnimInProgress = false;
+
+	UPROPERTY()
+	UAudioComponent* ReloadSoundComponent;
 	
 	void SpawnWeapons();
 	static void AttachWeaponToSocket(ASSBaseWeapon* Weapon, USkeletalMeshComponent* Mesh, const FName& SocketName);
 
 	void PlayAnimMontage(UAnimMontage* Animation) const;
+	
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
+	void OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase);
 	
 	bool CanReload() const;
 
 	void OnEmptyClip(ASSBaseWeapon* EmptyWeapon);
 	void ChangeClip();
 	void BreakReload();
+	void StopReloadSound() const;
 };

@@ -6,6 +6,8 @@
 #include "Animations/AnimUtils.h"
 #include "Animations/SSEquipFinishedAnimNotify.h"
 #include "Animations/SSReloadFinishedAnimNotify.h"
+#include "Animations/WeaponReloadSoundAnimNotify.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
@@ -124,7 +126,6 @@ void USSWeaponComponent::PlayAnimMontage(UAnimMontage* Animation) const
 {
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character) return;
-
 	Character->PlayAnimMontage(Animation);
 }
 
@@ -144,6 +145,8 @@ void USSWeaponComponent::InitAnimations()
 		if (!ReloadFinishedNotify) continue;
 		ReloadFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnReloadFinished);
 	}
+
+	UWeaponReloadSoundAnimNotify::OnNotified.AddUObject(this, &USSWeaponComponent::OnWeaponReloadSoundTriggered);
 }
 
 void USSWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
@@ -160,6 +163,21 @@ void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 	ReloadAnimInProgress = false;
 
 	CurrentWeapon->ChangeClip();
+}
+
+void USSWeaponComponent::OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent,
+                                                      USoundBase* SoundBase)
+{
+	if (!SoundBase || !SkeletalMeshComponent) return;
+
+	if (ReloadSoundComponent && ReloadSoundComponent->IsPlaying())
+	{
+		return;
+	}
+	ReloadSoundComponent = UGameplayStatics::SpawnSoundAttached(SoundBase, SkeletalMeshComponent);
+	UE_LOG(LogTemp, Warning, TEXT("ReloadSound Triggered: %s | %s"),
+		*GetNameSafe(SkeletalMeshComponent),
+		*GetNameSafe(SoundBase));
 }
 
 bool USSWeaponComponent::CanReload() const
@@ -205,8 +223,17 @@ void USSWeaponComponent::BreakReload()
 	if (!Character) return;
 
 	Character->StopAnimMontage(CurrentReloadAnimMontage);
+	StopReloadSound();
 	ReloadAnimInProgress = false;
 	EquipAnimInProgress = false;
+}
+
+void USSWeaponComponent::StopReloadSound() const
+{
+	if (ReloadSoundComponent)
+	{
+		ReloadSoundComponent->Stop();
+	}
 }
 
 bool USSWeaponComponent::CanFire() const
@@ -263,7 +290,7 @@ bool USSWeaponComponent::NeedAmmo(const TSubclassOf<ASSBaseWeapon> WeaponType)
 	return false;
 }
 
-void USSWeaponComponent::Zoom(bool Enable)
+void USSWeaponComponent::Zoom(const bool Enable)
 {
 	CurrentWeapon->Zoom(Enable);
 }
