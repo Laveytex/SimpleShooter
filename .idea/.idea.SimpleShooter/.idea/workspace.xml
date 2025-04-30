@@ -7,15 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SimpleShooter/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AI/BT_SSCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AI/BT_SSCharacter.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Weapon/BP_SSRifleWeapon.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Weapon/BP_SSRifleWeapon.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Animations/WeaponReloadSoundAnimNotify.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Animations/WeaponReloadSoundAnimNotify.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Private/Components/SSWeaponComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Private/Components/SSWeaponComponent.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/SimpleShooter/Public/Components/SSWeaponComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/SimpleShooter/Public/Components/SSWeaponComponent.h" afterDir="false" />
-    </list>
+    <list default="true" id="2ae613bd-86bc-46d9-87ce-41b0554276b8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -82,29 +74,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C++ Project.SimpleShooter.executor": "Run",
-    "C/C++ Project.SimpleShooter.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C++ Project.SimpleShooter.executor&quot;: &quot;Run&quot;,
+    &quot;C/C++ Project.SimpleShooter.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
-      "C:\\Users\\Admin\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Admin\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Admin\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="SimpleShooter" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -223,7 +215,7 @@
       <workItem from="1745858731100" duration="7430000" />
       <workItem from="1745929228425" duration="10974000" />
       <workItem from="1745955139715" duration="6162000" />
-      <workItem from="1745999002752" duration="734000" />
+      <workItem from="1745999002752" duration="1087000" />
     </task>
     <servers />
   </component>

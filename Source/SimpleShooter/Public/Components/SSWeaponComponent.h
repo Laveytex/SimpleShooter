@@ -42,6 +42,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponEquipSocketName = "WeaponSocket";
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponArmorySocketName = "ArmorySocket";
 	

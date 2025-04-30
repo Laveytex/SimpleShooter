@@ -1,14 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Animations/WeaponReloadSoundAnimNotify.h"
+#include "Animations/SSWeaponReloadSoundAnimNotify.h"
 
 #include "SSUtils.h"
 #include "Components/SSWeaponComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 class USSWeaponComponent;
-void UWeaponReloadSoundAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
+void USSWeaponReloadSoundAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	if (!SoundToPlay || !MeshComp) return;
 

@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Animations/SSAnimNotify.h"
-#include "WeaponReloadSoundAnimNotify.generated.h"
+#include "SSWeaponReloadSoundAnimNotify.generated.h"
 
 UCLASS()
-class SIMPLESHOOTER_API UWeaponReloadSoundAnimNotify : public USSAnimNotify
+class SIMPLESHOOTER_API USSWeaponReloadSoundAnimNotify : public USSAnimNotify
 {
 	GENERATED_BODY()
 
