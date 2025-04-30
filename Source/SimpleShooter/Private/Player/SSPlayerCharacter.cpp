@@ -110,8 +110,8 @@ void ASSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAxis("TurnAround", this, &ASSPlayerCharacter::AddControllerYawInput);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASSPlayerCharacter::Jump);
-	PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASSPlayerCharacter::OnStartRunning);
-	PlayerInputComponent->BindAction("Run", IE_Released, this, &ASSPlayerCharacter::OnEndRunning);
+	//PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASSPlayerCharacter::OnStartRunning);
+	//PlayerInputComponent->BindAction("Run", IE_Released, this, &ASSPlayerCharacter::OnEndRunning);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &USSWeaponComponent::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &USSWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("NextWeapon", IE_Pressed, WeaponComponent, &USSWeaponComponent::NextWeapon);

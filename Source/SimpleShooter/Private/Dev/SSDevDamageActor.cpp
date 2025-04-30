@@ -15,13 +15,7 @@ ASSDevDamageActor::ASSDevDamageActor()
 	SceneComponent = CreateDefaultSubobject<USceneComponent>("SceneComponent");
 	SetRootComponent(SceneComponent);
 
-}
-
-// Called when the game starts or when spawned
-void ASSDevDamageActor::BeginPlay()
-{
-	Super::BeginPlay();
-	
+	DrawDebugSphere(GetWorld(), GetActorLocation(), Radius, 24, SphereColor);
 }
 
 // Called every frame
@@ -32,5 +26,6 @@ void ASSDevDamageActor::Tick(float DeltaTime)
 	DrawDebugSphere(GetWorld(), GetActorLocation(), Radius, 24, SphereColor);
 	UGameplayStatics::ApplyRadialDamage(GetWorld(), Damage, GetActorLocation(),
 		Radius, DamageType, {}, this, nullptr, DoFullDamage);
+	
 }
 

@@ -22,7 +22,7 @@ public:
 	float Radius = 500.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float Damage = 10.0f;
+	float Damage = 100.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool DoFullDamage = false;
@@ -32,13 +32,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UDamageType> DamageType;
-	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector BoxExtent;
 };
