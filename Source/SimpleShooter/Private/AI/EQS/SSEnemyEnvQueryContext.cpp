@@ -22,11 +22,9 @@ void USSEnemyEnvQueryContext::ProvideContext(FEnvQueryInstance& QueryInstance, F
 		
 	} 
 	
-		
 	const auto ContextActor = Blackboard->GetValueAsObject(EnemyActorKeyName);
 	if (ContextActor)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("%s = StringVariable"), *ContextActor->GetName()));
 		UEnvQueryItemType_Actor::SetContextHelper(ContextData, Cast<AActor>(ContextActor));
 	}
 	else

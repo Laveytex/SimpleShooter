@@ -2,12 +2,7 @@
 
 
 #include "Weapon/SSBaseWeapon.h"
-
-#include "BoneSelectionWidget.h"
-#include "Engine/DamageEvents.h"
-#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/Character.h"
-#include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
