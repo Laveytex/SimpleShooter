@@ -79,6 +79,54 @@ bool ASSRifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 {
 	FVector ViewLocation;
 	FRotator ViewRotation;
+
+	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
+
+	const FVector ViewDirection = ViewRotation.Vector();
+
+	// 1. Камера целится в эту точку
+	FVector AimPoint = ViewLocation + ViewDirection * TraceMaxDistance;
+
+	// 2. Трассировка от камеры до мира (визуальное прицеливание)
+	FHitResult AimHitResult;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(GetOwner());
+	Params.bReturnPhysicalMaterial = false;
+
+	if (GetWorld()->LineTraceSingleByChannel(AimHitResult, ViewLocation, AimPoint, ECC_Visibility, Params))
+	{
+		AimPoint = AimHitResult.ImpactPoint;
+	}
+
+	// 3. Старт — из дула
+	TraceStart = GetMuzzleWorldLocation();
+
+	// 4. Направление — от дула к AimPoint (с разбросом)
+	FVector DesiredDirection = (AimPoint - TraceStart).GetSafeNormal();
+
+	// 5. Проверка угла между направлением камеры и направлением выстрела
+	const float AngleDegrees = FMath::RadiansToDegrees(acosf(FVector::DotProduct(ViewDirection, DesiredDirection)));
+	const float MaxAllowedAngle = 30.0f; // допустимый угол отклонения
+
+	FVector FinalDirection;
+	if (AngleDegrees <= MaxAllowedAngle)
+	{
+		// Всё нормально — используем отклонённое направление с разбросом
+		const float HalfRad = FMath::DegreesToRadians(BulletSpreed);
+		FinalDirection = FMath::VRandCone(DesiredDirection, HalfRad);
+	}
+	else
+	{
+		// Угол слишком большой — стреляем прямо из дула по направлению камеры
+		const float HalfRad = FMath::DegreesToRadians(BulletSpreed);
+		FinalDirection = FMath::VRandCone(ViewDirection, HalfRad);
+	}
+
+	TraceEnd = TraceStart + FinalDirection * TraceMaxDistance;
+	return true;
+	
+	/*FVector ViewLocation;
+	FRotator ViewRotation;
 	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
 
 	TraceStart = ViewLocation; //SocketTransform.GetLocation();
@@ -86,7 +134,7 @@ bool ASSRifleWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd)
 	const FVector ShootDirection = FMath::VRandCone(ViewRotation.Vector(), HalfRad);
 	//SocketTransform.GetRotation().GetForwardVector();
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
-	return true;
+	return true;*/
 }
 
 void ASSRifleWeapon::MakeDamage(const FHitResult& HitResult)

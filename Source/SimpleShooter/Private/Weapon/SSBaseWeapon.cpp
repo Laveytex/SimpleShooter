@@ -3,6 +3,7 @@
 
 #include "Weapon/SSBaseWeapon.h"
 
+#include "BoneSelectionWidget.h"
 #include "Engine/DamageEvents.h"
 #include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/Character.h"
@@ -71,7 +72,9 @@ void ASSBaseWeapon::StopFire()
  	
 	TraceStart = ViewLocation; //SocketTransform.GetLocation();
 
+ 	//TraceStart = WeaponMesh->GetSocketLocation(MuzzleSocketName);
  	const FVector ShootDirection = ViewRotation.Vector(); //SocketTransform.GetRotation().GetForwardVector();
+ 	//const FVector ShootDirection = WeaponMesh->GetSocketRotation(MuzzleSocketName).Vector(); //SocketTransform.GetRotation().GetForwardVector();
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;
 	return true;
  }
