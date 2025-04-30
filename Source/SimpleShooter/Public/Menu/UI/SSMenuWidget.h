@@ -22,20 +22,38 @@ class SIMPLESHOOTER_API USSMenuWidget : public USSBaseWidget
 	
 protected:
 	UPROPERTY(meta = (BindWidget))
-	UButton* OpenGameCreateButton;
+	UButton* StartGameButton;
 
-	UPROPERTY(meta = (BindWidget))
-	UButton* GameOptionsButton;
-	
 	UPROPERTY(meta = (BindWidget))
 	UButton* QuitGameButton;
 
+	UPROPERTY(meta = (BindWidget))
+	UHorizontalBox* LevelItemsBox;
+
+	UPROPERTY(meta = (BindWidgetAnim), Transient)
+	UWidgetAnimation* HideAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="UI")
+	TSubclassOf<UUserWidget> LevelItemWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Sound")
+	USoundCue* ButtonStartSound;
+	
 	virtual void NativeOnInitialized() override;
+	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
 	
 private:
+	UPROPERTY()
+	TArray<USSLevelItemWidget*> LevelItemsWidgets;
+	
+	UFUNCTION()
+	void OnStartGame();
+
 	UFUNCTION()
 	void OnQuitGame();
 
-	UFUNCTION()
-	void OpenGameCreatWidget();
+	void InitLevelItems();
+	void OnLevelSelected(const FLevelData& Data);
+
+	USSGameInstance* GetSSGameInstance() const;
 };
