@@ -6,7 +6,6 @@
 #include "Animations/AnimUtils.h"
 #include "Animations/SSEquipFinishedAnimNotify.h"
 #include "Animations/SSReloadFinishedAnimNotify.h"
-#include "Animations/WeaponReloadSoundAnimNotify.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
@@ -41,7 +40,6 @@ void USSWeaponComponent::Reload()
 	ChangeClip();
 }
 
-
 void USSWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -63,7 +61,6 @@ void USSWeaponComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	Super::EndPlay(EndPlayReason);
 }
-
 
 void USSWeaponComponent::SpawnWeapons()
 {
@@ -144,8 +141,6 @@ void USSWeaponComponent::InitAnimations()
 		if (!ReloadFinishedNotify) continue;
 		ReloadFinishedNotify->OnNotified.AddUObject(this, &USSWeaponComponent::OnReloadFinished);
 	}
-
-	UWeaponReloadSoundAnimNotify::OnNotified.AddUObject(this, &USSWeaponComponent::OnWeaponReloadSoundTriggered);
 }
 
 void USSWeaponComponent::OnEquipFinished(USkeletalMeshComponent* MeshComponent)
@@ -164,10 +159,9 @@ void USSWeaponComponent::OnReloadFinished(USkeletalMeshComponent* MeshComponent)
 	CurrentWeapon->ChangeClip();
 }
 
-void USSWeaponComponent::OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase)
+void USSWeaponComponent::OnWeaponReloadSound(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase)
 {
 	if (!SoundBase || !SkeletalMeshComponent || !ReloadAnimInProgress) return;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 	ReloadSoundComponent = UGameplayStatics::SpawnSoundAttached(SoundBase, SkeletalMeshComponent);
 }
 

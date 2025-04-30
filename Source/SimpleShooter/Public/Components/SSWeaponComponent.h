@@ -30,6 +30,7 @@ public:
 
 	bool TryToAddAmmo(TSubclassOf<ASSBaseWeapon> WeaponType, int32 ClipAmount);
 	bool NeedAmmo(TSubclassOf<ASSBaseWeapon> WeaponType);
+	void OnWeaponReloadSound(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase);
 
 	void Zoom(bool Enable);
 	void UnEquip();
@@ -62,6 +63,7 @@ protected:
 	
 	int32 CurrentWeaponIndex = 0;
 	void EquipWeapons(int32 WeaponIndex);
+	
 
 private:
 	UPROPERTY()
@@ -81,7 +83,6 @@ private:
 	void InitAnimations();
 	void OnEquipFinished(USkeletalMeshComponent* MeshComponent);
 	void OnReloadFinished(USkeletalMeshComponent* MeshComponent);
-	void OnWeaponReloadSoundTriggered(USkeletalMeshComponent* SkeletalMeshComponent, USoundBase* SoundBase);
 	
 	bool CanReload() const;
 

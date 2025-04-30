@@ -3,16 +3,22 @@
 
 #include "Animations/WeaponReloadSoundAnimNotify.h"
 
+#include "SSUtils.h"
+#include "Components/SSWeaponComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-FOnWeaponReloadSoundNotifySignature UWeaponReloadSoundAnimNotify::OnNotified;
-
+class USSWeaponComponent;
 void UWeaponReloadSoundAnimNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
-	if (SoundToPlay && MeshComp)
+	if (!SoundToPlay || !MeshComp) return;
+
+	AActor* Owner = MeshComp->GetOwner();
+	if (!Owner) return;
+
+	USSWeaponComponent* WeaponComponent = SSUtils::GetSSPlayerComponent<USSWeaponComponent>(Owner);
+	if (WeaponComponent)
 	{
-		//UGameplayStatics::SpawnSoundAttached(SoundToPlay, MeshComp);
-		OnNotified.Broadcast(MeshComp, SoundToPlay);
+		WeaponComponent->OnWeaponReloadSound(MeshComp, SoundToPlay);
 	}
 	Super::Notify(MeshComp, Animation);
 }
