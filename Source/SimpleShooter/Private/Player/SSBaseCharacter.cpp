@@ -81,7 +81,6 @@ void ASSBaseCharacter::SetPlayerColor(const FLinearColor& Color) const
 
 void ASSBaseCharacter::OnDeath()
 {
-	//PlayAnimMontage(DeathAnimMontage);
 	GetCharacterMovement()->DisableMovement();
 	SetLifeSpan(5.0f);
 	
